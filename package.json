@@ -1,6 +1,6 @@
 {
   "name": "noteworthybackend",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "The backend api for Noteworthy desktop and mobile",
   "main": "src/index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
+    "firebase": "^5.10.0",
     "hapi": "^18.1.0",
     "nodemon": "^1.18.11"
   }

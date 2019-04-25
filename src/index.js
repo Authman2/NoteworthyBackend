@@ -5,6 +5,9 @@ const LoginRoute = require('./endpoints/login');
 const LogoutRoute = require('./endpoints/logout');
 const NotebooksRoute = require('./endpoints/notebooks');
 const NotesRoute = require('./endpoints/notes');
+const CreateNotebookRoute = require('./endpoints/create-notebook');
+const CreateNoteRoute = require('./endpoints/create-note');
+const SaveRoute = require('./endpoints/save');
 
 // Initialize firebase.
 firebase.initializeApp({
@@ -28,7 +31,13 @@ LoginRoute(server, auth);
 LogoutRoute(server, auth);
 NotebooksRoute(server, auth, database);
 NotesRoute(server, auth, database);
+CreateNotebookRoute(server, auth, database);
+CreateNoteRoute(server, auth, database);
+SaveRoute(server, auth, database);
 
 // Start the server.
-const init = async () => await server.start();
+const init = async () => {
+    await server.start();
+    console.log('Started server!');
+}
 init();

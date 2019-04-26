@@ -1,1 +1,1 @@
-web: node -r dotenv/config index.js
+web: nodemon -r dotenv/config index.js

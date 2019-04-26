@@ -14,12 +14,12 @@ const MoveNoteRoute = require('./src/endpoints/move-note');
 
 // Initialize firebase.
 const config = {
-    apiKey: process.env['apiKey'],
-    authDomain: process.env['authDomain'],
-    databaseURL: process.env['databaseURL'],
-    projectId: process.env['projectId'],
-    storageBucket: process.env['storageBucket'],
-    messagingSenderId: process.env['messageSenderId'],
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    databaseURL: process.env.databaseURL,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messageSenderId,
 };
 console.log(config);
 firebase.initializeApp(config);

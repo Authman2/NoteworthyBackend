@@ -14,7 +14,7 @@ const MoveNoteRoute = require('./endpoints/move-note');
 
 // Initialize firebase.
 firebase.initializeApp({
-    apiKey: ''+process.env['apiKey'],
+    apiKey: process.env['apiKey'],
     authDomain: process.env['authDomain'],
     databaseURL: process.env['databaseURL'],
     projectId: process.env['projectId'],

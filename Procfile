@@ -1,0 +1,1 @@
+web: nodemon -r dotenv/config src/index.js

@@ -2,9 +2,9 @@
   "name": "noteworthybackend",
   "version": "0.0.1",
   "description": "The backend api for Noteworthy desktop and mobile",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config src/index.js",
+    "start": "nodemon -r dotenv/config index.js",
     "deploy": "git add . && git commit -m \"new api version\" && git push && git push heroku master"
   },
   "author": "",

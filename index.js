@@ -1,16 +1,16 @@
 const Hapi = require('hapi').Server;
 const firebase = require('firebase');
 
-const LoginRoute = require('./endpoints/login');
-const LogoutRoute = require('./endpoints/logout');
-const NotebooksRoute = require('./endpoints/notebooks');
-const NotesRoute = require('./endpoints/notes');
-const CreateNotebookRoute = require('./endpoints/create-notebook');
-const CreateNoteRoute = require('./endpoints/create-note');
-const SaveRoute = require('./endpoints/save');
-const DeleteNotebookRoute = require('./endpoints/delete-notebook');
-const DeleteNoteRoute = require('./endpoints/delete-note');
-const MoveNoteRoute = require('./endpoints/move-note');
+const LoginRoute = require('./src/endpoints/login');
+const LogoutRoute = require('./src/endpoints/logout');
+const NotebooksRoute = require('./src/endpoints/notebooks');
+const NotesRoute = require('./src/endpoints/notes');
+const CreateNotebookRoute = require('./src/endpoints/create-notebook');
+const CreateNoteRoute = require('./src/endpoints/create-note');
+const SaveRoute = require('./src/endpoints/save');
+const DeleteNotebookRoute = require('./src/endpoints/delete-notebook');
+const DeleteNoteRoute = require('./src/endpoints/delete-note');
+const MoveNoteRoute = require('./src/endpoints/move-note');
 
 // Initialize firebase.
 firebase.initializeApp({

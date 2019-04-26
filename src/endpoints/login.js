@@ -9,6 +9,15 @@ const handleLogin = (server, fireAuth) => {
             const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = data['email'];
             const pass = data['password'];
+
+            fireAuth.onAuthStateChanged(user => {
+                if(user) {
+                    return rep.response({
+                        email,
+                        uid: user['uid']
+                    }).code(200);
+                }
+            });
             
             try {
                 // Return the user.

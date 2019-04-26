@@ -21,7 +21,6 @@ const config = {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messageSenderId,
 };
-console.log(config);
 firebase.initializeApp(config);
 
 // Create the api server.

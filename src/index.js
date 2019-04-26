@@ -10,6 +10,7 @@ const CreateNoteRoute = require('./endpoints/create-note');
 const SaveRoute = require('./endpoints/save');
 const DeleteNotebookRoute = require('./endpoints/delete-notebook');
 const DeleteNoteRoute = require('./endpoints/delete-note');
+const MoveNoteRoute = require('./endpoints/move-note');
 
 // Initialize firebase.
 firebase.initializeApp({
@@ -38,6 +39,7 @@ CreateNoteRoute(server, auth, database);
 SaveRoute(server, auth, database);
 DeleteNotebookRoute(server, auth, database);
 DeleteNoteRoute(server, auth, database);
+MoveNoteRoute(server, auth, database);
 
 // Start the server.
 const init = async () => {

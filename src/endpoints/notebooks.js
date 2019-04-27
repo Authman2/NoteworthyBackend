@@ -6,7 +6,8 @@ const handleGetNotebooks = (server, fireAuth, fireRef) => {
         path: '/notebooks',
         async handler(req, rep) {
             // Get the currently logged in user.
-            const cUser = fireAuth.currentUser;
+            const payload = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
+            const cUser = payload['cUser'];
             if(!cUser) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
 
             // Now that you have the current user, find the notebooks in

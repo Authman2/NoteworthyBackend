@@ -5,6 +5,12 @@ const handleLogin = (server, fireAuth) => {
     server.route({
         method: 'get',
         path: '/login',
+        config: {
+            cors: {
+                origin: ['*'],
+                additionalHeaders: ['cache-control', 'x-requested-with']
+            }
+        },
         async handler(req, rep) {
             const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = data['email'];

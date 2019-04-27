@@ -3,6 +3,7 @@ const firebase = require('firebase');
 
 const LoginRoute = require('./src/endpoints/login');
 const LogoutRoute = require('./src/endpoints/logout');
+const CreateAccountRoute = require('./src/endpoints/create-account');
 const NotebooksRoute = require('./src/endpoints/notebooks');
 const NotesRoute = require('./src/endpoints/notes');
 const CreateNotebookRoute = require('./src/endpoints/create-notebook');
@@ -33,6 +34,7 @@ const database = firebase.database().ref();
 // Define the routes.
 LoginRoute(server, auth);
 LogoutRoute(server, auth);
+CreateAccountRoute(server, auth);
 NotebooksRoute(server, auth, database);
 NotesRoute(server, auth, database);
 CreateNotebookRoute(server, auth, database);

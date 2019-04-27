@@ -26,7 +26,7 @@ firebase.initializeApp(config);
 
 // Create the api server.
 const server = new Hapi({
-    port: process.env.PORT || 5000
+    port: process.env.PORT || 8000
 });
 const auth = firebase.auth();
 const database = firebase.database().ref();

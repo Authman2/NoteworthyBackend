@@ -12,16 +12,15 @@ const handleGetNotebooks = (server, fireAuth, fireRef) => {
         },
         async handler(req, rep) {
             // Get the currently logged in user.
-            const payload = typeof req.params === 'string' ? JSON.parse(req.params) : req.params;
-            console.log(req.params);
-            const cUser = payload['cUser'];
-            if(!cUser) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
 
             // Now that you have the current user, find the notebooks in
             // the firebase database.
             try {
-                const data = (await fireRef.orderByKey().equalTo(cUser.uid).once('value')).val();
-                const everything = Object.values(data[cUser.uid]);
+                const data = (await fireRef.orderByKey().equalTo(uid).once('value')).val();
+                const everything = Object.values(data[uid]);
                 const notebooks = everything.filter(val => val.pages);
                 return rep.response(notebooks).code(200);
             } catch(err) {

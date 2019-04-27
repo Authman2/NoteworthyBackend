@@ -6,17 +6,18 @@ const handleGetNotes = (server, fireAuth, fireRef) => {
         path: '/notes',
         async handler(req, rep) {
             // Get the currently logged in user.
-            const cUser = fireAuth.currentUser;
-            if(!cUser) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
 
             // We also need the id of the notebook to look for notes in.
-            const notebookID = req.query['notebookID'];
+            const notebookID = params['notebookID'];
 
             // Now that you have the current user and the notebook id, return the
             // list of notes under that notebook.
             try {
-                const data = (await fireRef.orderByKey().equalTo(cUser.uid).once('value')).val();
-                const everything = Object.values(data[cUser.uid]);
+                const data = (await fireRef.orderByKey().equalTo(uid).once('value')).val();
+                const everything = Object.values(data[uid]);
                 const notes = everything.filter(val => val.notebook === notebookID);
                 return rep.response({
                     notes,

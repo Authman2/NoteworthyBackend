@@ -1,10 +1,10 @@
 // Route for creating a new account.
 const handleCreateAccount = (server, fireAuth) => {
     server.route({
-        method: 'get',
+        method: 'post',
         path: '/create-account',
         async handler(req, rep) {
-            const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const email = data['email'];
             const pass = data['password'];
 

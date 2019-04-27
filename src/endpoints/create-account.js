@@ -9,8 +9,8 @@ const handleCreateAccount = (server, fireAuth) => {
             const pass = data['password'];
 
             try {
-                await fireAuth.createUserWithEmailAndPassword(email, pass);
-                return true;
+                const resp = await fireAuth.createUserWithEmailAndPassword(email, pass);
+                return resp;
             } catch(err) {
                 return rep.response(''+err).code(500);
             }

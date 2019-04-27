@@ -4,6 +4,12 @@ const handleGetNotebooks = (server, fireAuth, fireRef) => {
     server.route({
         method: 'get',
         path: '/notebooks',
+        config: {
+            cors: {
+                origin: ['*'],
+                additionalHeaders: ['cache-control', 'x-requested-with']
+            }
+        },
         async handler(req, rep) {
             // Get the currently logged in user.
             const payload = typeof req.params === 'string' ? JSON.parse(req.params) : req.params;

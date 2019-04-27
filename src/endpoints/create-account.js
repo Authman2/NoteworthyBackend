@@ -3,6 +3,12 @@ const handleCreateAccount = (server, fireAuth) => {
     server.route({
         method: 'post',
         path: '/create-account',
+        config: {
+            cors: {
+                origin: ['*'],
+                additionalHeaders: ['cache-control', 'x-requested-with']
+            }
+        },
         async handler(req, rep) {
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const email = data['email'];

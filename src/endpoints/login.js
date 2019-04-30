@@ -15,16 +15,27 @@ const handleLogin = (server, fireAuth, admin) => {
             const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = data['email'];
             const pass = data['password'];
+            const tok = data['token'];
 
             try {
                 // Return the user.
-                const result = await fireAuth.signInWithEmailAndPassword(email, pass);
-                const token = await admin.auth().createCustomToken(result.user.uid);
-                return rep.response({
-                    email,
-                    token,
-                    uid: result.user.uid
-                }).code(200);
+                let result;
+                if(tok) {
+                    result = await fireAuth.signInWithCustomToken(tok);
+                    return rep.response({
+                        email,
+                        tok,
+                        uid: result.user.uid
+                    }).code(200);
+                } else {
+                    result = await fireAuth.signInWithEmailAndPassword(email, pass);
+                    const token = await admin.auth().createCustomToken(result.user.uid);
+                    return rep.response({
+                        email,
+                        token,
+                        uid: result.user.uid
+                    }).code(200);
+                }
             } catch(err) {
                 // Return an error.
                 return rep.response(''+err).code(500);

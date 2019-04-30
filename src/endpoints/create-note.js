@@ -6,12 +6,7 @@ const handleCreateNote = (server, fireAuth, fireRef) => {
     server.route({
         method: 'post',
         path: '/create-note',
-        options: {
-            cors: {
-                origin: ['*'],
-                additionalHeaders: ['cache-control', 'x-requested-with']
-            }
-        },
+        
         async handler(req, rep) {
             // Get the current user.
             const cUser = fireAuth.currentUser;

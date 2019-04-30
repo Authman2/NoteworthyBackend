@@ -9,8 +9,9 @@ const handleCreateNotebook = (server, fireAuth, fireRef) => {
         
         async handler(req, rep) {
             // Get the current user.
-            const cUser = fireAuth.currentUser;
-            if(!cUser) return rep.response('No user is currently logged in, so a notebook could not be created.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so a notebook could not be created.').code(400);
 
             // Get the data needed to populate the notebook.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
@@ -23,12 +24,12 @@ const handleCreateNotebook = (server, fireAuth, fireRef) => {
                 title,
                 created: saveDate,
                 pages: [],
-                creator: cUser.uid
+                creator: uid
             }
 
             // Save the item into the database.
             try {
-                const ref = fireRef.child(cUser.uid).push();
+                const ref = fireRef.child(uid).push();
                 const obj = {
                     ...newObj,
                     id: ref.key

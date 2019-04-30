@@ -9,8 +9,9 @@ const handleCreateNote = (server, fireAuth, fireRef) => {
         
         async handler(req, rep) {
             // Get the current user.
-            const cUser = fireAuth.currentUser;
-            if(!cUser) return rep.response('No user is currently logged in, so a note could not be created.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so a note could not be created.').code(400);
 
             // Get the data needed to populate the note.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
@@ -29,7 +30,7 @@ const handleCreateNote = (server, fireAuth, fireRef) => {
             // Save the item into the database.
             try {
                 // Save a new note in place.
-                const ref = fireRef.child(cUser.uid).push();
+                const ref = fireRef.child(uid).push();
                 const obj = {
                     ...newNote,
                     id: ref.key
@@ -38,12 +39,12 @@ const handleCreateNote = (server, fireAuth, fireRef) => {
 
                 // Update the notebook so that it references this newly added note.
                 try {
-                    await fireRef.child(cUser.uid).child(notebookID).once('value', snap => {
+                    await fireRef.child(uid).child(notebookID).once('value', snap => {
                         const notebook = snap.val();
                         if(notebook.pages) {
-                            fireRef.child(cUser.uid).child(notebookID).set({ ...notebook, pages: notebook.pages.concat(obj.id) });
+                            fireRef.child(uid).child(notebookID).set({ ...notebook, pages: notebook.pages.concat(obj.id) });
                         } else {
-                            fireRef.child(cUser.uid).child(notebookID).set({ ...notebook, pages: [obj.id] });
+                            fireRef.child(uid).child(notebookID).set({ ...notebook, pages: [obj.id] });
                         }
                     });
                     return rep.response(obj).code(200);

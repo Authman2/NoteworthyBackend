@@ -34,10 +34,7 @@ admin.initializeApp({
 const server = new Hapi({
     port: process.env.PORT || 8000,
     routes: {
-        cors: {
-            origin: ['*'],
-            additionalHeaders: ['cache-control', 'x-requested-with']
-        }
+        cors: false
     }
 });
 const auth = firebase.auth();

@@ -3,7 +3,7 @@ const handleCreateAccount = (server, fireAuth) => {
     server.route({
         method: 'post',
         path: '/create-account',
-        config: {
+        options: {
             cors: {
                 origin: ['*'],
                 additionalHeaders: ['cache-control', 'x-requested-with']

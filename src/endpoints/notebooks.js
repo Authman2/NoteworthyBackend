@@ -4,7 +4,7 @@ const handleGetNotebooks = (server, fireAuth, fireRef) => {
     server.route({
         method: 'get',
         path: '/notebooks',
-        config: {
+        options: {
             cors: {
                 origin: ['*'],
                 additionalHeaders: ['cache-control', 'x-requested-with']

@@ -1,5 +1,6 @@
 const Hapi = require('hapi').Server;
 const firebase = require('firebase');
+const admin = require('firebase-admin');
 
 const LoginRoute = require('./src/endpoints/login');
 const LogoutRoute = require('./src/endpoints/logout');
@@ -14,7 +15,7 @@ const DeleteNoteRoute = require('./src/endpoints/delete-note');
 const MoveNoteRoute = require('./src/endpoints/move-note');
 
 // Initialize firebase.
-const config = {
+const options = {
     apiKey: process.env.apiKey,
     authDomain: process.env.authDomain,
     databaseURL: process.env.databaseURL,
@@ -22,17 +23,27 @@ const config = {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messageSenderId,
 };
-firebase.initializeApp(config);
+const serviceAccount = require('./serviceAccountKey.json');
+firebase.initializeApp(options);
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.databaseURL
+});
 
 // Create the api server.
 const server = new Hapi({
-    port: process.env.PORT || 8000
+    port: process.env.PORT || 8000,
+    routes: {
+        cors: {
+            origin: ['*']
+        }
+    }
 });
 const auth = firebase.auth();
 const database = firebase.database().ref();
 
 // Define the routes.
-LoginRoute(server, auth);
+LoginRoute(server, auth, admin);
 LogoutRoute(server, auth);
 CreateAccountRoute(server, auth);
 NotebooksRoute(server, auth, database);

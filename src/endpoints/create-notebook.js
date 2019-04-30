@@ -6,7 +6,7 @@ const handleCreateNotebook = (server, fireAuth, fireRef) => {
     server.route({
         method: 'post',
         path: '/create-notebook',
-        config: {
+        options: {
             cors: {
                 origin: ['*'],
                 additionalHeaders: ['cache-control', 'x-requested-with']

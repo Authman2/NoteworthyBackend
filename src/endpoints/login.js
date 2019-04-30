@@ -1,11 +1,11 @@
 // Login route. Accepts the user's email and password
 // and, if successful, will return the current user.
 // Otherwise, it will return an error.
-const handleLogin = (server, fireAuth) => {
+const handleLogin = (server, fireAuth, admin) => {
     server.route({
         method: 'get',
         path: '/login',
-        config: {
+        options: {
             cors: {
                 origin: ['*'],
                 additionalHeaders: ['cache-control', 'x-requested-with']
@@ -16,21 +16,14 @@ const handleLogin = (server, fireAuth) => {
             const email = data['email'];
             const pass = data['password'];
 
-            fireAuth.onAuthStateChanged(user => {
-                if(user) {
-                    return rep.response({
-                        email,
-                        uid: user['uid']
-                    }).code(200);
-                }
-            });
-            
             try {
                 // Return the user.
                 const result = await fireAuth.signInWithEmailAndPassword(email, pass);
+                const token = await admin.auth().createCustomToken(result.user.uid);
                 return rep.response({
                     email,
-                    uid: result['user']['uid']
+                    token,
+                    uid: result.user.uid
                 }).code(200);
             } catch(err) {
                 // Return an error.

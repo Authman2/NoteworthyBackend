@@ -6,7 +6,7 @@ const handleCreateNote = (server, fireAuth, fireRef) => {
     server.route({
         method: 'post',
         path: '/create-note',
-        config: {
+        options: {
             cors: {
                 origin: ['*'],
                 additionalHeaders: ['cache-control', 'x-requested-with']

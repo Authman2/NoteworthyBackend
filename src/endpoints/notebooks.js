@@ -16,7 +16,7 @@ const handleGetNotebooks = (server, fireAuth, fireRef) => {
             try {
                 const data = (await fireRef.orderByKey().equalTo(uid).once('value')).val();
                 const everything = Object.values(data[uid]);
-                const notebooks = everything.filter(val => val.pages);
+                const notebooks = everything.filter(val => !val.notebook);
                 return rep.response(notebooks).code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);

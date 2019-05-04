@@ -7,8 +7,9 @@ const handleMoveNote = (server, fireAuth, fireRef) => {
         path: '/move-note',
         async handler(req, rep) {
             // Get the currently logged in user.
-            const cUser = fireAuth.currentUser;
-            if(!cUser) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
 
             // Get the noteID, the notebookID to move it from and the
             // notebookID to move it to.
@@ -17,19 +18,19 @@ const handleMoveNote = (server, fireAuth, fireRef) => {
 
             // Go into the new notebook and add the noteID to its pages.
             try {
-                const notebook = (await fireRef.child(cUser.uid).child(toNotebook).once('value')).val();
-                fireRef.child(cUser.uid).child(toNotebook).set({ ...notebook, pages: notebook.pages.concat(noteID) });
+                const notebook = (await fireRef.child(uid).child(toNotebook).once('value')).val();
+                fireRef.child(uid).child(toNotebook).set({ ...notebook, pages: notebook.pages.concat(noteID) });
             } catch(err) {
                 return rep.response('There was a problem moving the note to the new notebook: ' + err).code(500);
             }
 
             // Delete the note from the old notebook's pages.
             try {
-                const oldNotebook = (await fireRef.child(cUser.uid).child(fromNotebook).once('value')).val();
+                const oldNotebook = (await fireRef.child(uid).child(fromNotebook).once('value')).val();
                 const index = oldNotebook.pages.indexOf(noteID);
                 if(index >= 0) {
                     oldNotebook.pages.splice(index, 1);
-                    fireRef.child(cUser.uid).child(fromNotebook).set({ ...oldNotebook, pages: oldNotebook.pages });
+                    fireRef.child(uid).child(fromNotebook).set({ ...oldNotebook, pages: oldNotebook.pages });
                 }
             } catch(err) {
                 return rep.response('There was a problem deleting the note from the old notebook: ' + err).code(500);
@@ -37,8 +38,8 @@ const handleMoveNote = (server, fireAuth, fireRef) => {
 
             // Update the note so that its notebook property points to the new one.
             try {
-                const note = (await fireRef.child(cUser.uid).child(noteID).once('value')).val();
-                fireRef.child(cUser.uid).child(noteID).set({ ...note, notebook: toNotebook });
+                const note = (await fireRef.child(uid).child(noteID).once('value')).val();
+                fireRef.child(uid).child(noteID).set({ ...note, notebook: toNotebook });
             } catch(err) {
                 return rep.response('There was a problem moving the note to the new notebook: ' + err).code(500);
             }

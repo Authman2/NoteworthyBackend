@@ -15,7 +15,7 @@ const handleSave = (server, fireAuth, fireRef) => {
             const { notebooksAndNotes } = data;
 
             // Save the entire structure to the database.
-            const outer = `{"${cUser.uid}": ${notebooksAndNotes}}`;
+            const outer = `{"${uid}": ${notebooksAndNotes}}`;
             try {
                 await fireRef.ref().set(JSON.parse(outer));
                 return rep.reponse(notebooksAndNotes).code(200);

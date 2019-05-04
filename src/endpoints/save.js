@@ -6,8 +6,9 @@ const handleSave = (server, fireAuth, fireRef) => {
         path: '/save',
         async handler(req, rep) {
             // Get the current user.
-            const cUser = fireAuth.currentUser;
-            if(!cUser) return rep.response('No user is currently logged in, so a note could not be created.').code(400);
+            const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
+            const uid = params.uid;
+            if(!uid) return rep.response('No user is currently logged in, so a note could not be created.').code(400);
 
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;

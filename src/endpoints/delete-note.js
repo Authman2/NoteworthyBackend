@@ -1,7 +1,7 @@
 const firebase = require('firebase');
 
 // The route for deleting a single note.
-const handleDeleteNote = (server, fireAuth, fireRef) => {
+const handleDeleteNote = (server) => {
     server.route({
         method: 'delete',
         path: '/delete-note',
@@ -10,6 +10,7 @@ const handleDeleteNote = (server, fireAuth, fireRef) => {
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const uid = params.uid;
             if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const fireRef = firebase.database().ref();
 
             // Get the ID of the note you are trying to delete.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;

@@ -1,7 +1,9 @@
+const firebase = require('firebase');
+
 // Login route. Accepts the user's email and password
 // and, if successful, will return the current user.
 // Otherwise, it will return an error.
-const handleLogin = (server, fireAuth, admin) => {
+const handleLogin = (server, admin) => {
     server.route({
         method: 'get',
         path: '/login',
@@ -16,14 +18,14 @@ const handleLogin = (server, fireAuth, admin) => {
                 // Return the user.
                 let result;
                 if(tok) {
-                    result = await fireAuth.signInWithCustomToken(tok);
+                    result = await firebase.auth().signInWithCustomToken(tok);
                     return rep.response({
                         email,
                         tok,
                         uid: result.user.uid
                     }).code(200);
                 } else {
-                    result = await fireAuth.signInWithEmailAndPassword(email, pass);
+                    result = await firebase.auth().signInWithEmailAndPassword(email, pass);
                     const token = await admin.auth().createCustomToken(result.user.uid);
                     return rep.response({
                         email,

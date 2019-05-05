@@ -1,5 +1,7 @@
+const firebase = require('firebase');
+
 // Route for creating a new account.
-const handleCreateAccount = (server, fireAuth) => {
+const handleCreateAccount = server => {
     server.route({
         method: 'post',
         path: '/create-account',
@@ -10,7 +12,7 @@ const handleCreateAccount = (server, fireAuth) => {
             const pass = data['password'];
 
             try {
-                const resp = await fireAuth.createUserWithEmailAndPassword(email, pass);
+                const resp = await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 return rep.response({
                     email,
                     uid: resp['user']['uid']

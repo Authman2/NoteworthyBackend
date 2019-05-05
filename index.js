@@ -13,6 +13,7 @@ const SaveRoute = require('./src/endpoints/save');
 const DeleteNotebookRoute = require('./src/endpoints/delete-notebook');
 const DeleteNoteRoute = require('./src/endpoints/delete-note');
 const MoveNoteRoute = require('./src/endpoints/move-note');
+const ForgotPassword = require('./src/endpoints/forgot-password');
 
 // Initialize firebase.
 const options = {
@@ -49,21 +50,19 @@ const server = new Hapi({
         cors: true
     }
 });
-const auth = firebase.auth();
-const database = firebase.database().ref();
-
 // Define the routes.
-LoginRoute(server, auth, admin);
-LogoutRoute(server, auth);
-CreateAccountRoute(server, auth);
-NotebooksRoute(server, auth, database);
-NotesRoute(server, auth, database);
-CreateNotebookRoute(server, auth, database);
-CreateNoteRoute(server, auth, database);
-SaveRoute(server, auth, database);
-DeleteNotebookRoute(server, auth, database);
-DeleteNoteRoute(server, auth, database);
-MoveNoteRoute(server, auth, database);
+LoginRoute(server, admin);
+LogoutRoute(server);
+CreateAccountRoute(server);
+NotebooksRoute(server);
+NotesRoute(server);
+CreateNotebookRoute(server);
+CreateNoteRoute(server);
+SaveRoute(server);
+DeleteNotebookRoute(server);
+DeleteNoteRoute(server);
+MoveNoteRoute(server);
+ForgotPassword(server);
 
 // Start the server.
 const init = async () => {

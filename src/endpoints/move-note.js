@@ -1,7 +1,7 @@
 const firebase = require('firebase');
 
 // Route that handles moving a note from one notebook to another.
-const handleMoveNote = (server, fireAuth, fireRef) => {
+const handleMoveNote = (server) => {
     server.route({
         method: 'put',
         path: '/move-note',
@@ -10,6 +10,7 @@ const handleMoveNote = (server, fireAuth, fireRef) => {
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const uid = params.uid;
             if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const fireRef = firebase.database().ref();
 
             // Get the noteID, the notebookID to move it from and the
             // notebookID to move it to.

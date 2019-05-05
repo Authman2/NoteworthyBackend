@@ -1,8 +1,9 @@
+const firebase = require('firebase');
 const Moment = require('moment');
 
 // Handles creating a new notebook in the database
 // under the currently logged in user.
-const handleCreateNotebook = (server, fireAuth, fireRef) => {
+const handleCreateNotebook = (server) => {
     server.route({
         method: 'post',
         path: '/create-notebook',
@@ -29,7 +30,7 @@ const handleCreateNotebook = (server, fireAuth, fireRef) => {
 
             // Save the item into the database.
             try {
-                const ref = fireRef.child(uid).push();
+                const ref = firebase.database().ref().child(uid).push();
                 const obj = {
                     ...newObj,
                     id: ref.key

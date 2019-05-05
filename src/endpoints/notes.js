@@ -1,6 +1,8 @@
+const firebase = require('firebase');
+
 // Notes route. Returns the list of all of the user's
 // notes in a given notebook from the database.
-const handleGetNotes = (server, fireAuth, fireRef) => {
+const handleGetNotes = (server) => {
     server.route({
         method: 'get',
         path: '/notes',
@@ -17,7 +19,7 @@ const handleGetNotes = (server, fireAuth, fireRef) => {
             // Now that you have the current user and the notebook id, return the
             // list of notes under that notebook.
             try {
-                const data = (await fireRef.orderByKey().equalTo(uid).once('value')).val();
+                const data = (await firebase.database().ref().orderByKey().equalTo(uid).once('value')).val();
                 const everything = Object.values(data[uid]);
                 const notes = everything.filter(val => val.notebook === notebookID);
                 return rep.response({

@@ -1,6 +1,8 @@
+const firebase = require('firebase');
+
 // Saves all of the notebooks and notes as they are in their
 // current state into the database.
-const handleSave = (server, fireAuth, fireRef) => {
+const handleSave = (server) => {
     server.route({
         method: 'post',
         path: '/save',
@@ -17,7 +19,7 @@ const handleSave = (server, fireAuth, fireRef) => {
             // Save the entire structure to the database.
             const outer = `{"${uid}": ${notebooksAndNotes}}`;
             try {
-                await fireRef.ref().set(JSON.parse(outer));
+                await firebase.database().ref().set(JSON.parse(outer));
                 return rep.reponse(notebooksAndNotes).code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);

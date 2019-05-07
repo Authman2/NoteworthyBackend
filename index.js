@@ -47,7 +47,10 @@ admin.initializeApp({
 const server = new Hapi({
     port: process.env.PORT || 8000,
     routes: {
-        cors: true
+        cors: {
+            credentials: true,
+            origin: ['http://localhost:3000', 'https://noteworthyapp.netlify.com']
+        }
     }
 });
 // Define the routes.

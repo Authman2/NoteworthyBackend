@@ -1,5 +1,4 @@
 const firebase = require('firebase');
-const Moment = require('moment');
 
 // Handles creating a new notebook in the database
 // under the currently logged in user.
@@ -17,8 +16,7 @@ const handleCreateNotebook = (server) => {
             // Get the data needed to populate the notebook.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const { title } = data;
-            const now = new Moment();
-            const saveDate = [now.year(), now.month(), now.day(), now.hours(), now.minutes(), now.seconds()];
+            const saveDate = Date.now();
             
             // Create a new document for the notebook.
             const newObj = {

@@ -18,6 +18,7 @@ const handleSave = (server) => {
 
             // Save the entire structure to the database.
             const outer = `{"${uid}": ${notebooksAndNotes}}`;
+            console.log(outer);
             try {
                 await firebase.database().ref().set(JSON.parse(outer));
                 return rep.reponse(notebooksAndNotes).code(200);

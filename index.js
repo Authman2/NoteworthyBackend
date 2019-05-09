@@ -70,6 +70,6 @@ ForgotPassword(server);
 // Start the server.
 const init = async () => {
     await server.start();
-    console.log('Started server!');
+    console.log('Started API server!');
 }
 init();

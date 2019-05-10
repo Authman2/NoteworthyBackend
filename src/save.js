@@ -1,7 +1,6 @@
 const firebase = require('firebase');
 
-// Saves all of the notebooks and notes as they are in their
-// current state into the database.
+// Saves the most recent version of the current note to the database.
 const handleSave = (server) => {
     server.route({
         method: 'post',
@@ -14,13 +13,14 @@ const handleSave = (server) => {
 
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
-            const { notebooksAndNotes } = data;
+            const { noteID, title, content } = data;
 
             // Save the entire structure to the database.
-            const outer = `{"${uid}": ${JSON.stringify(notebooksAndNotes)}}`;
             try {
-                await firebase.database().ref().set(JSON.parse(outer));
-                return rep.response(notebooksAndNotes).code(200);
+                const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val;
+                const saved = { ...old, title, content };
+                await firebase.database().ref().child(uid).child(noteID).set(saved);
+                return rep.response(saved).code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);
             }

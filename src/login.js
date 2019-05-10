@@ -41,4 +41,4 @@ const handleLogin = (server, admin) => {
     });
 }
 
-module.default = handleLogin;
+module.exports = handleLogin;

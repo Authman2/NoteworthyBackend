@@ -7,7 +7,6 @@
     "test": "nodemon -r dotenv/config index.js",
     "start": "node -r dotenv/config index.js",
     "clean": "rm -rf .cache dist node_modules",
-    "bundle": "parcel build index.js",
     "deploy": "git add . && git commit -m \"new api version\" && git push"
   },
   "author": "",

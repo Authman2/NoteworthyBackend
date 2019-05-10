@@ -54,7 +54,7 @@ const server = new Hapi({
     }
 });
 // Define the routes.
-LoginRoute(server);
+LoginRoute(server, admin);
 LogoutRoute(server);
 CreateAccountRoute(server);
 NotebooksRoute(server);

@@ -1,5 +1,4 @@
 const firebase = require('firebase');
-const admin = require('firebase-admin');
 
 // Login route. Accepts the user's email and password
 // and, if successful, will return the current user.
@@ -21,7 +20,7 @@ const handleLogin = (server, admin) => {
                     result = await firebase.auth().signInWithCustomToken(tok);
                     return rep.response({
                         email,
-                        tok,
+                        token: tok,
                         uid: result.user.uid
                     }).code(200);
                 } else {

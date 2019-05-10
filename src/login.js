@@ -7,7 +7,6 @@ const handleLogin = (server, admin) => {
     server.route({
         method: 'get',
         path: '/login',
-        
         async handler(req, rep) {
             const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = data['email'];

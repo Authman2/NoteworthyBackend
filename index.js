@@ -2,7 +2,7 @@ const Hapi = require('hapi').Server;
 const firebase = require('firebase');
 const admin = require('firebase-admin');
 
-// const LoginRoute = require('./src/login');
+const LoginRoute = require('./src/login');
 // const LogoutRoute = require('./src/logout');
 // const CreateAccountRoute = require('./src/create-account');
 // const NotebooksRoute = require('./src/notebooks');
@@ -54,7 +54,7 @@ const server = new Hapi({
     }
 });
 // Define the routes.
-// LoginRoute(server, admin);
+LoginRoute(server, admin);
 // LogoutRoute(server);
 // CreateAccountRoute(server);
 // NotebooksRoute(server);

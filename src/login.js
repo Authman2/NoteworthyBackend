@@ -1,4 +1,5 @@
 const firebase = require('firebase');
+const admin = require('firebase-admin');
 
 // Login route. Accepts the user's email and password
 // and, if successful, will return the current user.

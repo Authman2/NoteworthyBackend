@@ -17,7 +17,7 @@ const handleSave = (server) => {
 
             // Save the entire structure to the database.
             try {
-                const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val;
+                const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val();
                 const saved = { ...old, title, content };
                 await firebase.database().ref().child(uid).child(noteID).set(saved);
                 return rep.response(saved).code(200);

@@ -1,5 +1,5 @@
 const Hapi = require('hapi').Server;
-// const firebase = require('firebase');
+const firebase = require('firebase');
 const admin = require('firebase-admin');
 
 // const LoginRoute = require('./src/login');
@@ -37,7 +37,7 @@ const serviceAccount = {
     "client_x509_cert_url": process.env.client_x509_cert_url
 }
 
-// firebase.initializeApp(options);
+firebase.initializeApp(options);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.databaseURL

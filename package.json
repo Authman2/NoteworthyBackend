@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
+    "firebase": "^6.0.2",
     "firebase-admin": "^7.3.0",
     "hapi": "^18.1.0",
     "nodemon": "^1.18.11"

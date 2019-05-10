@@ -1,19 +1,19 @@
 const Hapi = require('hapi').Server;
-const firebase = require('firebase');
+// const firebase = require('firebase');
 const admin = require('firebase-admin');
 
-const LoginRoute = require('./src/endpoints/login');
-const LogoutRoute = require('./src/endpoints/logout');
-const CreateAccountRoute = require('./src/endpoints/create-account');
-const NotebooksRoute = require('./src/endpoints/notebooks');
-const NotesRoute = require('./src/endpoints/notes');
-const CreateNotebookRoute = require('./src/endpoints/create-notebook');
-const CreateNoteRoute = require('./src/endpoints/create-note');
-const SaveRoute = require('./src/endpoints/save');
-const DeleteNotebookRoute = require('./src/endpoints/delete-notebook');
-const DeleteNoteRoute = require('./src/endpoints/delete-note');
-const MoveNoteRoute = require('./src/endpoints/move-note');
-const ForgotPassword = require('./src/endpoints/forgot-password');
+// const LoginRoute = require('./src/login');
+// const LogoutRoute = require('./src/logout');
+// const CreateAccountRoute = require('./src/create-account');
+// const NotebooksRoute = require('./src/notebooks');
+// const NotesRoute = require('./src/notes');
+// const CreateNotebookRoute = require('./src/create-notebook');
+// const CreateNoteRoute = require('./src/create-note');
+// const SaveRoute = require('./src/save');
+// const DeleteNotebookRoute = require('./src/delete-notebook');
+// const DeleteNoteRoute = require('./src/delete-note');
+// const MoveNoteRoute = require('./src/move-note');
+// const ForgotPassword = require('./src/forgot-password');
 
 // Initialize firebase.
 const options = {
@@ -37,7 +37,7 @@ const serviceAccount = {
     "client_x509_cert_url": process.env.client_x509_cert_url
 }
 
-firebase.initializeApp(options);
+// firebase.initializeApp(options);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.databaseURL
@@ -54,18 +54,25 @@ const server = new Hapi({
     }
 });
 // Define the routes.
-LoginRoute(server, admin);
-LogoutRoute(server);
-CreateAccountRoute(server);
-NotebooksRoute(server);
-NotesRoute(server);
-CreateNotebookRoute(server);
-CreateNoteRoute(server);
-SaveRoute(server);
-DeleteNotebookRoute(server);
-DeleteNoteRoute(server);
-MoveNoteRoute(server);
-ForgotPassword(server);
+// LoginRoute(server, admin);
+// LogoutRoute(server);
+// CreateAccountRoute(server);
+// NotebooksRoute(server);
+// NotesRoute(server);
+// CreateNotebookRoute(server);
+// CreateNoteRoute(server);
+// SaveRoute(server);
+// DeleteNotebookRoute(server);
+// DeleteNoteRoute(server);
+// MoveNoteRoute(server);
+// ForgotPassword(server);
+server.route({
+    method: 'GET',
+    path: '/',
+    handler() {
+        return `<h1>Noteworthy Backend!!!</h1>`;
+    }
+})
 
 // Start the server.
 const init = async () => {

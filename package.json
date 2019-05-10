@@ -4,16 +4,19 @@
   "description": "The backend api for Noteworthy desktop and mobile",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config index.js",
-    "deploy": "git add . && git commit -m \"new api version\" && git push && git push heroku master"
+    "test": "nodemon -r dotenv/config index.js",
+    "start": "node -r dotenv/config index.js",
+    "deploy": "git add . && git commit -m \"new api version\" && git push"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
-    "firebase": "^5.10.0",
     "firebase-admin": "^7.3.0",
     "hapi": "^18.1.0",
     "nodemon": "^1.18.11"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

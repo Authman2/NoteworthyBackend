@@ -8,7 +8,7 @@ const handleSave = (server) => {
         async handler(req, rep) {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
-            const uid = params.uid;
+            const uid = params['uid'];
             if(!uid) {
                 return rep.response('No user is currently logged in, so a note could not be created.').code(400);
             }

@@ -12,7 +12,6 @@ const handleForgotPassword = server => {
 
             try {
                 await firebase.auth().sendPasswordResetEmail(email);
-                Globals.showActionAlert(`Sent password reset email to ${email}!`, Globals.ColorScheme.gray);
                 return rep.response(true).code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);

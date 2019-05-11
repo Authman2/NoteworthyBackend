@@ -19,8 +19,8 @@ const handleSave = (server) => {
             try {
                 const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val();
                 const saved = { ...old, title, content };
-                await firebase.database().ref().child(uid).child(noteID).set(saved);
-                return rep.response(saved).code(200);
+                const result = await firebase.database().ref().child(uid).child(noteID).set(saved);
+                return rep.response(result).code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);
             }

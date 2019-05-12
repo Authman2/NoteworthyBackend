@@ -3,8 +3,8 @@ const firebase = require('firebase');
 // Saves the most recent version of the current note to the database.
 const handleSaveNotebook = (server) => {
     server.route({
-        method: 'post',
-        path: '/save-notebook',
+        method: 'put',
+        path: '/restore',
         async handler(req, rep) {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
@@ -15,19 +15,13 @@ const handleSaveNotebook = (server) => {
 
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
-            const { notebookID, pages } = data;
+            const { notebooksAndNotes } = data;
+            const allData = JSON.parse(notebooksAndNotes);
 
             // Save the entire structure to the database.
             try {
-                const old = (await firebase.database().ref().child(uid).child(notebookID).once('value')).val();
-                const saved = { ...old, id: notebookID, pages: pages };
-                
-                try {
-                    await firebase.database().ref().child(uid).child(notebookID).set(saved);
-                    return rep.response('Saved!').code(200);
-                } catch(err) {
-                    return rep.response(''+err).code(500);
-                }
+                await firebase.database().ref().child(uid).set(allData);
+                return rep.response('Saved!').code(200);
             } catch(err) {
                 return rep.response(''+err).code(500);
             }

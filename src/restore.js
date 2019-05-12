@@ -29,4 +29,4 @@ const handleRestore = (server) => {
     });
 }
 
-module.exports = handler;
+module.exports = handleRestore;

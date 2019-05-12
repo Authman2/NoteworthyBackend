@@ -1,7 +1,7 @@
 const firebase = require('firebase');
 
-// Saves the most recent version of the current note to the database.
-const handleSaveNotebook = (server) => {
+// Restores notes and notebooks from the database.
+const handleRestore = (server) => {
     server.route({
         method: 'put',
         path: '/restore',
@@ -29,4 +29,4 @@ const handleSaveNotebook = (server) => {
     });
 }
 
-module.exports = handleSaveNotebook;
+module.exports = handler;

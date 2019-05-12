@@ -10,7 +10,7 @@ const NotesRoute = require('./src/notes');
 const CreateNotebookRoute = require('./src/create-notebook');
 const CreateNoteRoute = require('./src/create-note');
 const SaveRoute = require('./src/save');
-const SaveNotebookRoute = require('./src/saveNotebook');
+const RestoreRoute = require('./src/restore');
 const DeleteNotebookRoute = require('./src/delete-notebook');
 const DeleteNoteRoute = require('./src/delete-note');
 const MoveNoteRoute = require('./src/move-note');
@@ -63,11 +63,11 @@ NotesRoute(server);
 CreateNotebookRoute(server);
 CreateNoteRoute(server);
 SaveRoute(server);
-SaveNotebookRoute(server);
 DeleteNotebookRoute(server);
 DeleteNoteRoute(server);
 MoveNoteRoute(server);
 ForgotPassword(server);
+RestoreRoute(server);
 // server.route({
 //     method: 'GET',
 //     path: '/',

@@ -5,10 +5,10 @@ const firebase = require('firebase');
 // Otherwise, it will return an error.
 const handleLogin = (server, admin) => {
     server.route({
-        method: 'POST',
+        method: 'get',
         path: '/login',
         async handler(req, rep) {
-            const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
+            const data = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = data['email'];
             const pass = data['password'];
             const tok = data['token'];

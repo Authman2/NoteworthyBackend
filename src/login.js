@@ -13,7 +13,6 @@ const handleLogin = (server = new Hapi({ port: 8000 }), admin) => {
             const email = data['email'];
             const pass = data['password'];
             const tok = data['token'];
-            console.log(data);
 
             try {
                 // Return the user.

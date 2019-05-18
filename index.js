@@ -68,13 +68,13 @@ DeleteNoteRoute(server);
 MoveNoteRoute(server);
 ForgotPassword(server);
 RestoreRoute(server);
-// server.route({
-//     method: 'GET',
-//     path: '/',
-//     handler() {
-//         return `<h1>Noteworthy Backend!!!</h1>`;
-//     }
-// })
+server.route({
+    method: 'GET',
+    path: '/',
+    handler() {
+        return `<h1>Noteworthy Backend!!!</h1>`;
+    }
+})
 
 // Start the server.
 const init = async () => {

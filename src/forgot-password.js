@@ -3,7 +3,7 @@ const firebase = require('firebase');
 // Route for sending a forgot password email.
 const handleForgotPassword = server => {
     server.route({
-        method: 'put',
+        method: 'GET',
         path: '/forgot-password',
         
         async handler(req, rep) {

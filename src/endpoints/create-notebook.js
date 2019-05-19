@@ -1,4 +1,4 @@
-import NotebookController from '../controllers/NotebookController';
+const NotebookController = require('../controllers/NotebookController');
 
 // Handles creating a new notebook in the database
 // under the currently logged in user.

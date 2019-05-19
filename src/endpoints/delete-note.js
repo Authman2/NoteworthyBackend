@@ -1,4 +1,4 @@
-import NoteController from '../controllers/NoteController';
+const NoteController = require('../controllers/NoteController');
 
 // The route for deleting a single note.
 const handleDeleteNote = (server) => {

@@ -1,6 +1,6 @@
-import firebase from 'firebase';
+const firebase = require('firebase');
 
-export default class NoteController {
+module.exports = class NoteController {
 
     /** Retrieves the list of notes in a given notebook. */
     static async get(uid, notebookID, req, rep) {

@@ -1,4 +1,4 @@
-import Account from '../controllers/AccountController';
+const Account = require('../controllers/AccountController');
 
 // Route for sending a forgot password email.
 const handleForgotPassword = server => {

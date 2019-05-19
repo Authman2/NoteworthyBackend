@@ -1,4 +1,4 @@
-import NoteController from '../controllers/NoteController';
+const NoteController = require('../controllers/NoteController');
 
 // Saves the most recent version of the current note to the database.
 const handleSave = (server) => {

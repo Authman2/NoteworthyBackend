@@ -1,4 +1,4 @@
-import Account from '../controllers/AccountController';
+const Account = require('../controllers/AccountController');
 
 // Logout route. Logs the user out of their account
 // and returns a boolean whether or not they were

@@ -1,4 +1,4 @@
-import NotebookController from '../controllers/NotebookController';
+const NotebookController = require('../controllers/NotebookController');
 
 // The route for deleting a single notebook.
 const handleDeleteNotebook = (server) => {

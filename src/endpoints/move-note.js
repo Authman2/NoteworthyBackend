@@ -1,4 +1,4 @@
-import NoteController from '../controllers/NoteController';
+const NoteController = require('../controllers/NoteController');
 
 // Route that handles moving a note from one notebook to another.
 const handleMoveNote = (server) => {

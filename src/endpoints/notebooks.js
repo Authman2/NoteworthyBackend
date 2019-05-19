@@ -1,10 +1,10 @@
-import NotebookController from '../controllers/NotebookController';
+const NotebookController = require('../controllers/NotebookController');
 
 // Notebooks route. Returns the list of all of the user's
 // notebooks from the database.
 const handleGetNotebooks = (server) => {
     server.route({
-        method: 'get',
+        method: 'GET',
         path: '/notebooks',
         
         async handler(req, rep) {

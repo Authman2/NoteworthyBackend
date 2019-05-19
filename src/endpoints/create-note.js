@@ -1,4 +1,4 @@
-import NoteController from '../controllers/NoteController';
+const NoteController = require('../controllers/NoteController');
 
 // Handles creating a new note in the database
 // under the currently logged in user.

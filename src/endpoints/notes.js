@@ -1,4 +1,4 @@
-import NoteController from '../controllers/NoteController';
+const NoteController = require('../controllers/NoteController');
 
 // Notes route. Returns the list of all of the user's
 // notes in a given notebook from the database.

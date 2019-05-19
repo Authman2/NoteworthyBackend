@@ -1,7 +1,7 @@
-import firebase from 'firebase';
-import admin from 'firebase-admin';
+const firebase = require('firebase');
+const admin = require('firebase-admin');
 
-export default class AccountController {
+module.exports = class AccountController {
 
     /** Creates a new Noteworthy account. */
     static async createAccount(email, password, req, rep) {
@@ -21,8 +21,8 @@ export default class AccountController {
         try {
             // Return the user.
             let result;
-            if(tok && tok !== '') {
-                result = await firebase.auth().signInWithCustomToken(tok);
+            if(token && token !== '') {
+                result = await firebase.auth().signInWithCustomToken(token);
                 return rep.response({
                     email,
                     token: token,

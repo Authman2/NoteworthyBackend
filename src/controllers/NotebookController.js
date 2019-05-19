@@ -1,9 +1,14 @@
 const firebase = require('firebase');
+const { verify } = require('./Util');
 
 module.exports = class NotebookController {
 
     /** Retrieves a list of the user's notebooks. */
-    static async get(uid, req, rep) {
+    static async get(token, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
         // Now that you have the current user, find the notebooks in
         // the firebase database.
         try {
@@ -17,7 +22,11 @@ module.exports = class NotebookController {
     }
 
     /** Creates a new notebook in the database. */
-    static async createNotebook(uid, title, req, rep) {
+    static async createNotebook(token, title, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
         // Create a new document for the notebook.
         const saveDate = Date.now();
         const newObj = {
@@ -42,7 +51,10 @@ module.exports = class NotebookController {
     }
 
     /** Deletes a notebook and all of its notes. */
-    static async delete(uid, notebookID, req, rep) {
+    static async delete(token, notebookID, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
         const fireRef = firebase.database().ref();
 
         // Find all of the notes in the database that are part of this notebook.

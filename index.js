@@ -14,7 +14,7 @@ const RestoreRoute = require('./src/endpoints/restore');
 const DeleteNotebookRoute = require('./src/endpoints/delete-notebook');
 const DeleteNoteRoute = require('./src/endpoints/delete-note');
 const MoveNoteRoute = require('./src/endpoints/move-note');
-const ForgotPassword = require('./src/endpoints/forgot-password');
+const ForgotPasswordRoute = require('./src/endpoints/forgot-password');
 
 // Initialize firebase.
 const options = {
@@ -56,7 +56,7 @@ const server = new Hapi({
 });
 
 // Define the routes.
-LoginRoute(server, admin);
+LoginRoute(server);
 LogoutRoute(server);
 CreateAccountRoute(server);
 NotebooksRoute(server);
@@ -67,7 +67,7 @@ SaveRoute(server);
 DeleteNotebookRoute(server);
 DeleteNoteRoute(server);
 MoveNoteRoute(server);
-ForgotPassword(server);
+ForgotPasswordRoute(server);
 RestoreRoute(server);
 server.route({
     method: 'GET',

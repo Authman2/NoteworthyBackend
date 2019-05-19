@@ -1,4 +1,5 @@
 const firebase = require('firebase');
+const { verify } = require('../controllers/Util');
 
 // Restores notes and notebooks from the database.
 const handleRestore = (server) => {
@@ -8,10 +9,14 @@ const handleRestore = (server) => {
         async handler(req, rep) {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
-            const uid = params['uid'];
-            if(!uid) {
+            const token = params['token'];
+            if(!token) {
                 return rep.response('No user is currently logged in, so the notebook could not be saved.').code(400);
             }
+
+            const verified = await verify(token);
+            if(!verified) return rep.response('Could not verify the current user.').code(500);
+            const uid = verified.uid;
 
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;

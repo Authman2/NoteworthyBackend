@@ -10,12 +10,12 @@ const handleGetNotes = (server) => {
         async handler(req, rep) {
             // Get the currently logged in user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
-            const uid = params.uid;
-            if(!uid) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
+            const token = params.token;
+            if(!token) return rep.response('No user is currently logged in, so no notebooks were recevied.').code(400);
 
             // We also need the id of the notebook to look for notes in.
             const notebookID = params['notebookID'];
-            return NoteController.get(uid, notebookID, req, rep);
+            return NoteController.get(token, notebookID, req, rep);
         }
     });
 }

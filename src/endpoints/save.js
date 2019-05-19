@@ -8,15 +8,15 @@ const handleSave = (server) => {
         async handler(req, rep) {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
-            const uid = params['uid'];
-            if(!uid) {
+            const token = params['token'];
+            if(!token) {
                 return rep.response('No user is currently logged in, so the note could not be saved.').code(400);
             }
 
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const { noteID, title, content } = data;
-            return NoteController.save(uid, noteID, title, content, req, rep);
+            return NoteController.save(token, noteID, title, content, req, rep);
         }
     });
 }

@@ -1,9 +1,14 @@
 const firebase = require('firebase');
+const { verify } = require('./Util');
 
 module.exports = class NoteController {
 
     /** Retrieves the list of notes in a given notebook. */
-    static async get(uid, notebookID, req, rep) {
+    static async get(token, notebookID, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
         // Now that you have the current user and the notebook id, return the
         // list of notes under that notebook.
         try {
@@ -20,7 +25,11 @@ module.exports = class NoteController {
     }
 
     /** Creates a new note in the database under a notebook. */
-    static async createNote(uid, title, content, notebookID, req, rep) {
+    static async createNote(token, title, content, notebookID, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
         // Create the new document.
         const saveDate = Date.now();
         const newNote = {
@@ -61,8 +70,13 @@ module.exports = class NoteController {
     }
 
     /** Deletes a note in the database and removes it from its notebook. */
-    static async delete(uid, noteID, req, rep) {
+    static async delete(token, noteID, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
         // Find the note in the database.
+        const fireRef = firebase.database().ref();
         const ref = firebase.database().ref(`/${uid}/${noteID}`);
 
         // Remove the note from its notebook.
@@ -95,7 +109,13 @@ module.exports = class NoteController {
     }
 
     /** Moves a note from one notebook to another. */
-    static async move(uid, noteID, fromNotebook, toNotebook, req, rep) {
+    static async move(token, noteID, fromNotebook, toNotebook, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+
+        const fireRef = firebase.database().ref();
+
         // Go into the new notebook and add the noteID to its pages.
         try {
             const notebook = (await fireRef.child(uid).child(toNotebook).once('value')).val();
@@ -129,7 +149,11 @@ module.exports = class NoteController {
     }
 
     /** Saves a note to the database. */
-    static async save(uid, noteID, title, content, req, rep) {
+    static async save(token, noteID, title, content, req, rep) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        const uid = verified.uid;
+        
         // Save the entire structure to the database.
         try {
             const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val();

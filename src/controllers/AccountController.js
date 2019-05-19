@@ -1,5 +1,6 @@
 const firebase = require('firebase');
 const admin = require('firebase-admin');
+const { verify } = require('./Util');
 
 module.exports = class AccountController {
 
@@ -7,9 +8,10 @@ module.exports = class AccountController {
     static async createAccount(email, password, req, rep) {
         try {
             const resp = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const _token = await firebase.auth().currentUser.getIdToken();
             return rep.response({
                 email,
-                uid: resp['user']['uid']
+                token: _token
             }).code(200);
         } catch(err) {
             return rep.response(''+err).code(500);
@@ -17,26 +19,15 @@ module.exports = class AccountController {
     }
 
     /** Logs a user into their Noteworthy account. */
-    static async login(email, password, token, req, rep) {
+    static async login(email, password, req, rep) {
         try {
             // Return the user.
-            let result;
-            if(token && token !== '') {
-                result = await firebase.auth().signInWithCustomToken(token);
-                return rep.response({
-                    email,
-                    token: token,
-                    uid: result.user.uid
-                }).code(200);
-            } else {
-                result = await firebase.auth().signInWithEmailAndPassword(email, password);
-                const _token = await admin.auth().createCustomToken(result.user.uid);
-                return rep.response({
-                    email,
-                    token: _token,
-                    uid: result.user.uid
-                }).code(200);
-            }
+            let result = await firebase.auth().signInWithEmailAndPassword(email, password);
+            const _token = await firebase.auth().currentUser.getIdToken();
+            return rep.response({
+                email,
+                token: _token,
+            }).code(200);
         } catch(err) {
             // Return an error.
             return rep.response(''+err).code(500);

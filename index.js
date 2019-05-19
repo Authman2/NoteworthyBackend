@@ -2,19 +2,19 @@ const Hapi = require('hapi').Server;
 const firebase = require('firebase');
 const admin = require('firebase-admin');
 
-const LoginRoute = require('./src/login');
-const LogoutRoute = require('./src/logout');
-const CreateAccountRoute = require('./src/create-account');
-const NotebooksRoute = require('./src/notebooks');
-const NotesRoute = require('./src/notes');
-const CreateNotebookRoute = require('./src/create-notebook');
-const CreateNoteRoute = require('./src/create-note');
-const SaveRoute = require('./src/save');
-const RestoreRoute = require('./src/restore');
-const DeleteNotebookRoute = require('./src/delete-notebook');
-const DeleteNoteRoute = require('./src/delete-note');
-const MoveNoteRoute = require('./src/move-note');
-const ForgotPassword = require('./src/forgot-password');
+const LoginRoute = require('./src/endpoints/login');
+const LogoutRoute = require('./src/endpoints/logout');
+const CreateAccountRoute = require('./src/endpoints/create-account');
+const NotebooksRoute = require('./src/endpoints/notebooks');
+const NotesRoute = require('./src/endpoints/notes');
+const CreateNotebookRoute = require('./src/endpoints/create-notebook');
+const CreateNoteRoute = require('./src/endpoints/create-note');
+const SaveRoute = require('./src/endpoints/save');
+const RestoreRoute = require('./src/endpoints/restore');
+const DeleteNotebookRoute = require('./src/endpoints/delete-notebook');
+const DeleteNoteRoute = require('./src/endpoints/delete-note');
+const MoveNoteRoute = require('./src/endpoints/move-note');
+const ForgotPassword = require('./src/endpoints/forgot-password');
 
 // Initialize firebase.
 const options = {
@@ -56,6 +56,7 @@ const server = new Hapi({
         }
     }
 });
+
 // Define the routes.
 LoginRoute(server, admin);
 LogoutRoute(server);

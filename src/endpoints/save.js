@@ -1,4 +1,4 @@
-const firebase = require('firebase');
+import NoteController from '../controllers/NoteController';
 
 // Saves the most recent version of the current note to the database.
 const handleSave = (server) => {
@@ -16,21 +16,7 @@ const handleSave = (server) => {
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const { noteID, title, content } = data;
-
-            // Save the entire structure to the database.
-            try {
-                const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val();
-                const saved = { ...old, title, content };
-                
-                try {
-                    await firebase.database().ref().child(uid).child(noteID).set(saved);
-                    return rep.response('Saved!').code(200);
-                } catch(err) {
-                    return rep.response(''+err).code(500);
-                }
-            } catch(err) {
-                return rep.response(''+err).code(500);
-            }
+            return NoteController.save(uid, noteID, title, content, req, rep);
         }
     });
 }

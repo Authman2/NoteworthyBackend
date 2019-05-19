@@ -1,4 +1,4 @@
-const firebase = require('firebase');
+import NotebookController from '../controllers/NotebookController';
 
 // Handles creating a new notebook in the database
 // under the currently logged in user.
@@ -16,28 +16,7 @@ const handleCreateNotebook = (server) => {
             // Get the data needed to populate the notebook.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const { title } = data;
-            const saveDate = Date.now();
-            
-            // Create a new document for the notebook.
-            const newObj = {
-                title,
-                created: saveDate,
-                pages: [],
-                creator: uid
-            }
-
-            // Save the item into the database.
-            try {
-                const ref = firebase.database().ref().child(uid).push();
-                const obj = {
-                    ...newObj,
-                    id: ref.key
-                }
-                await ref.set(obj);
-                return rep.response(obj).code(200);
-            } catch(err) {
-                return rep.response(''+err).code(500);
-            }
+            return NotebookController.createNotebook(uid, title, req, rep);
         }
     });
 }

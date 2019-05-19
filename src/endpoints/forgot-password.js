@@ -1,4 +1,4 @@
-const firebase = require('firebase');
+import Account from '../controllers/AccountController';
 
 // Route for sending a forgot password email.
 const handleForgotPassword = server => {
@@ -10,12 +10,7 @@ const handleForgotPassword = server => {
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const email = params.email;
 
-            try {
-                await firebase.auth().sendPasswordResetEmail(email);
-                return rep.response(true).code(200);
-            } catch(err) {
-                return rep.response(''+err).code(500);
-            }
+            return Account.forgotPassword(email, req, rep);
         }
     });
 }

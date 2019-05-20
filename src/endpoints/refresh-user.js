@@ -9,11 +9,10 @@ const handleRefresh = (server) => {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;
             const token = params['token'];
-            if(!token) {
+            if(!token)
                 return rep.response('No user is currently logged in, so the notebook could not be saved.').code(400);
-            }
 
-            return AccountController.refresh(token);
+            return AccountController.refresh(token, req, rep);
         }
     });
 }

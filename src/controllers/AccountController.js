@@ -8,10 +8,12 @@ module.exports = class AccountController {
     static async createAccount(email, password, req, rep) {
         try {
             const resp = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            const _token = await firebase.auth().currentUser.getIdToken();
+            const idToken = await firebase.auth().currentUser.getIdToken();
+            const customToken = await admin.auth().createCustomToken(resp.user.uid);
             return rep.response({
                 email,
-                token: _token
+                idToken,
+                customToken
             }).code(200);
         } catch(err) {
             return rep.response(''+err).code(500);
@@ -23,10 +25,12 @@ module.exports = class AccountController {
         try {
             // Return the user.
             let result = await firebase.auth().signInWithEmailAndPassword(email, password);
-            const _token = await firebase.auth().currentUser.getIdToken();
+            const idToken = await firebase.auth().currentUser.getIdToken();
+            const customToken = await admin.auth().createCustomToken(result.user.uid);
             return rep.response({
                 email,
-                token: _token,
+                idToken,
+                customToken
             }).code(200);
         } catch(err) {
             // Return an error.
@@ -35,10 +39,13 @@ module.exports = class AccountController {
     }
 
     /** Refreshes the session of the current user. */
-    static async refresh(token) {
-        const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(401);
-        else return rep.response(true);
+    static async refresh(token, req, rep) {
+        try {
+            await firebase.auth().signInWithCustomToken(token);
+            return rep.response(true).code(200);
+        } catch(err) {
+            return rep.response(false).code(401);
+        }
     }
 
     /** Logs the user out of their Noteworthy account. */

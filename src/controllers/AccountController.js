@@ -34,6 +34,13 @@ module.exports = class AccountController {
         }
     }
 
+    /** Refreshes the session of the current user. */
+    static async refresh(token) {
+        const verified = await verify(token);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
+        else return rep.response(true);
+    }
+
     /** Logs the user out of their Noteworthy account. */
     static async logout(req, rep) {
         try {

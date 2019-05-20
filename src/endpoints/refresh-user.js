@@ -3,8 +3,8 @@ const AccountController = require('../controllers/AccountController');
 // Restores notes and notebooks from the database.
 const handleRefresh = (server) => {
     server.route({
-        method: 'put',
-        path: '/restore',
+        method: 'GET',
+        path: '/refresh-user',
         async handler(req, rep) {
             // Get the current user.
             const params = typeof req.query === 'string' ? JSON.parse(req.query) : req.query;

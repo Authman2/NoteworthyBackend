@@ -6,7 +6,7 @@ module.exports = class NoteController {
     /** Retrieves the list of notes in a given notebook. */
     static async get(token, notebookID, req, rep) {
         const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
         const uid = verified.uid;
 
         // Now that you have the current user and the notebook id, return the
@@ -27,7 +27,7 @@ module.exports = class NoteController {
     /** Creates a new note in the database under a notebook. */
     static async createNote(token, title, content, notebookID, req, rep) {
         const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
         const uid = verified.uid;
 
         // Create the new document.
@@ -72,7 +72,7 @@ module.exports = class NoteController {
     /** Deletes a note in the database and removes it from its notebook. */
     static async delete(token, noteID, req, rep) {
         const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
         const uid = verified.uid;
 
         // Find the note in the database.
@@ -111,7 +111,7 @@ module.exports = class NoteController {
     /** Moves a note from one notebook to another. */
     static async move(token, noteID, fromNotebook, toNotebook, req, rep) {
         const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
         const uid = verified.uid;
 
         const fireRef = firebase.database().ref();
@@ -151,7 +151,7 @@ module.exports = class NoteController {
     /** Saves a note to the database. */
     static async save(token, noteID, title, content, req, rep) {
         const verified = await verify(token);
-        if(!verified) return rep.response('Could not verify the current user.').code(500);
+        if(!verified) return rep.response('Could not verify the current user.').code(401);
         const uid = verified.uid;
         
         // Save the entire structure to the database.

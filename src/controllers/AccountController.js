@@ -8,7 +8,7 @@ module.exports = class AccountController {
     static async createAccount(email, password, req, rep) {
         try {
             const resp = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            const idToken = await firebase.auth().currentUser.getIdToken();
+            const idToken = await resp.user.getIdToken();
             const customToken = await admin.auth().createCustomToken(resp.user.uid);
             return rep.response({
                 email,
@@ -25,7 +25,7 @@ module.exports = class AccountController {
         try {
             // Return the user.
             let result = await firebase.auth().signInWithEmailAndPassword(email, password);
-            const idToken = await firebase.auth().currentUser.getIdToken();
+            const idToken = await result.user.getIdToken();
             const customToken = await admin.auth().createCustomToken(result.user.uid);
             return rep.response({
                 email,
@@ -41,8 +41,14 @@ module.exports = class AccountController {
     /** Refreshes the session of the current user. */
     static async refresh(token, req, rep) {
         try {
-            await firebase.auth().signInWithCustomToken(token);
-            return rep.response(true).code(200);
+            const result = await firebase.auth().signInWithCustomToken(token);
+            const idToken = await result.user.getIdToken();
+            const customToken = await admin.auth().createCustomToken(result.user.uid);
+            return rep.response({
+                email: result.user.email,
+                idToken,
+                customToken
+            }).code(200);
         } catch(err) {
             return rep.response(false).code(401);
         }

@@ -50,7 +50,7 @@ module.exports = class AccountController {
                 customToken
             }).code(200);
         } catch(err) {
-            return rep.response('Too much time has gone by without refreshing. Please log in again to continue.').code(401);
+            return rep.response('Too much time has gone by without refreshing. Please log in again to continue.' + err).code(401);
         }
     }
 

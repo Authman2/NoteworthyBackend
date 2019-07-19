@@ -51,7 +51,8 @@ const server = new Hapi({
     routes: {
         cors: {
             credentials: true,
-            origin: ['http://localhost:3000', 'https://noteworthyapp.netlify.com']
+            origin: ['http://localhost:3000', 'https://noteworthyapp.netlify.com',
+            'https://dev-noteworthyapp.netlify.com']
         }
     }
 });

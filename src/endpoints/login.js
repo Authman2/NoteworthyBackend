@@ -8,11 +8,13 @@ const handleLogin = (server = new Hapi.Server({ port: 8000 })) => {
     server.route({
         method: 'POST',
         path: '/login',
-        async handler(req, rep) {
+        handler(req, rep) {
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const email = data['email'];
             const pass = data['password'];
-
+            
+            if(!email || !pass || email === '' || pass === '')
+                return rep.response('Please enter all fields.').code(204);
             return Account.login(email, pass, req, rep);
         }
     });

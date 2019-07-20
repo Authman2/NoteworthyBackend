@@ -16,7 +16,7 @@ module.exports = class AccountController {
                 customToken
             }).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -34,7 +34,7 @@ module.exports = class AccountController {
             }).code(200);
         } catch(err) {
             // Return an error.
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -60,7 +60,7 @@ module.exports = class AccountController {
             await firebase.auth().signOut();
             return rep.response(true).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -70,7 +70,7 @@ module.exports = class AccountController {
             await firebase.auth().sendPasswordResetEmail(email);
             return rep.response(true).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 }

@@ -17,7 +17,7 @@ module.exports = class NotebookController {
             const notebooks = everything.filter(val => !val.notebook);
             return rep.response(notebooks).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -46,7 +46,7 @@ module.exports = class NotebookController {
             await ref.set(obj);
             return rep.response(obj).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -76,7 +76,7 @@ module.exports = class NotebookController {
             await notebookRef.remove();
             return true;
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 }

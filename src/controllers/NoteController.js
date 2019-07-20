@@ -20,7 +20,7 @@ module.exports = class NoteController {
                 notebookID: notebookID
             }).code(200);
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -62,10 +62,10 @@ module.exports = class NoteController {
                 });
                 return rep.response(obj).code(200);
             } catch(err) {
-                return rep.response(''+err).code(500);
+                return rep.response(''+err).code(204);
             }
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -104,7 +104,7 @@ module.exports = class NoteController {
             await ref.remove();
             return true;
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 
@@ -121,7 +121,7 @@ module.exports = class NoteController {
             const notebook = (await fireRef.child(uid).child(toNotebook).once('value')).val();
             fireRef.child(uid).child(toNotebook).set({ ...notebook, pages: notebook.pages.concat(noteID) });
         } catch(err) {
-            return rep.response('There was a problem moving the note to the new notebook: ' + err).code(500);
+            return rep.response('There was a problem moving the note to the new notebook: ' + err).code(204);
         }
 
         // Delete the note from the old notebook's pages.
@@ -133,7 +133,7 @@ module.exports = class NoteController {
                 fireRef.child(uid).child(fromNotebook).set({ ...oldNotebook, pages: oldNotebook.pages });
             }
         } catch(err) {
-            return rep.response('There was a problem deleting the note from the old notebook: ' + err).code(500);
+            return rep.response('There was a problem deleting the note from the old notebook: ' + err).code(204);
         }
 
         // Update the note so that its notebook property points to the new one.
@@ -141,7 +141,7 @@ module.exports = class NoteController {
             const note = (await fireRef.child(uid).child(noteID).once('value')).val();
             fireRef.child(uid).child(noteID).set({ ...note, notebook: toNotebook });
         } catch(err) {
-            return rep.response('There was a problem moving the note to the new notebook: ' + err).code(500);
+            return rep.response('There was a problem moving the note to the new notebook: ' + err).code(204);
         }
 
         // Return the good response.
@@ -163,10 +163,10 @@ module.exports = class NoteController {
                 await firebase.database().ref().child(uid).child(noteID).set(saved);
                 return rep.response('Saved!').code(200);
             } catch(err) {
-                return rep.response(''+err).code(500);
+                return rep.response(''+err).code(204);
             }
         } catch(err) {
-            return rep.response(''+err).code(500);
+            return rep.response(''+err).code(204);
         }
     }
 }

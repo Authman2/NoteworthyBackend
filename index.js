@@ -1,6 +1,25 @@
 const Hapi = require('hapi').Server;
+// const express = require('express');
+// const app = express();
+// const cors = require('cors');
 const firebase = require('firebase');
 const admin = require('firebase-admin');
+
+// const origins = [
+//     'http://localhost:3000', 
+//     'http://localhost:3000/login',
+//     'https://noteworthyapp.netlify.com',
+//     'https://dev-noteworthyapp.netlify.com'
+// ];
+// app.use(express.urlencoded({ extended: false }));
+// app.use(cors({
+//     credentials: true,
+//     origin: function(origin, callback) {
+//         if(!origin) return callback(null, true);
+//         if(origin.includes(origin)) return callback(null, true);
+//         else return callback(new Error('Origin not supported.'), false);
+//     }
+// }));
 
 const LoginRoute = require('./src/endpoints/login');
 const LogoutRoute = require('./src/endpoints/logout');
@@ -47,12 +66,16 @@ admin.initializeApp({
 
 // Create the api server.
 const server = new Hapi({
+    host: 'localhost',
     port: process.env.PORT || 8000,
     routes: {
         cors: {
-            credentials: true,
-            origin: ['http://localhost:3000', 'https://noteworthyapp.netlify.com',
-            'https://dev-noteworthyapp.netlify.com']
+            origin: [
+                'http://localhost:3000', 
+                'http://localhost:3000/login',
+                'https://noteworthyapp.netlify.com',
+                'https://dev-noteworthyapp.netlify.com'
+            ]
         }
     }
 });
@@ -78,11 +101,17 @@ server.route({
     handler() {
         return `<h1>Noteworthy Backend!!!</h1>`;
     }
-})
+});
 
 // Start the server.
+// app.post('/login', async (req, res) => {
+//     res.json({
+//         working: 'Finally!!!'
+//     })
+// });
+// app.listen(8000, () => console.log('listening at port 8000!'));
 const init = async () => {
     await server.start();
-    console.log('Started API server!');
+    console.log(`Started API server on port ${server.info.port}!`);
 }
 init();

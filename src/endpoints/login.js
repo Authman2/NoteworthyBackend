@@ -14,7 +14,7 @@ const handleLogin = (server = new Hapi.Server({ port: 8000 })) => {
             const pass = data['password'];
             
             if(!email || !pass || email === '' || pass === '')
-                return rep.response('Please enter all fields.').code(204);
+                return rep.response('Please enter all fields.').code(500);
             return Account.login(email, pass, req, rep);
         }
     });

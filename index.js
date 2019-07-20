@@ -47,7 +47,6 @@ admin.initializeApp({
 
 // Create the api server.
 const server = new Hapi({
-    host: 'localhost',
     port: process.env.PORT || 8000,
     routes: {
         cors: {

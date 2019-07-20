@@ -1,25 +1,6 @@
 const Hapi = require('hapi').Server;
-// const express = require('express');
-// const app = express();
-// const cors = require('cors');
 const firebase = require('firebase');
 const admin = require('firebase-admin');
-
-// const origins = [
-//     'http://localhost:3000', 
-//     'http://localhost:3000/login',
-//     'https://noteworthyapp.netlify.com',
-//     'https://dev-noteworthyapp.netlify.com'
-// ];
-// app.use(express.urlencoded({ extended: false }));
-// app.use(cors({
-//     credentials: true,
-//     origin: function(origin, callback) {
-//         if(!origin) return callback(null, true);
-//         if(origin.includes(origin)) return callback(null, true);
-//         else return callback(new Error('Origin not supported.'), false);
-//     }
-// }));
 
 const LoginRoute = require('./src/endpoints/login');
 const LogoutRoute = require('./src/endpoints/logout');
@@ -104,12 +85,6 @@ server.route({
 });
 
 // Start the server.
-// app.post('/login', async (req, res) => {
-//     res.json({
-//         working: 'Finally!!!'
-//     })
-// });
-// app.listen(8000, () => console.log('listening at port 8000!'));
 const init = async () => {
     await server.start();
     console.log(`Started API server on port ${server.info.port}!`);

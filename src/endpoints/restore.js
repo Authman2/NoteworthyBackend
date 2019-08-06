@@ -21,7 +21,8 @@ const handleRestore = (server) => {
             // Get the list of notebooks and notes all together.
             const data = typeof req.payload === 'string' ? JSON.parse(req.payload) : req.payload;
             const { notebooksAndNotes } = data;
-            const allData = JSON.parse(notebooksAndNotes);
+            const allData = typeof notebooksAndNotes === 'string' ?
+                JSON.parse(notebooksAndNotes) : notebooksAndNotes;
 
             // Save the entire structure to the database.
             try {

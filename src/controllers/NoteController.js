@@ -37,6 +37,7 @@ module.exports = class NoteController {
             content,
             created: saveDate,
             notebook: notebookID,
+            modified: Date.now()
         }
 
         // Save the item into the database.
@@ -157,7 +158,7 @@ module.exports = class NoteController {
         // Save the entire structure to the database.
         try {
             const old = (await firebase.database().ref().child(uid).child(noteID).once('value')).val();
-            const saved = { ...old, title, content };
+            const saved = { ...old, title, content, modified: Date.now() };
             
             try {
                 await firebase.database().ref().child(uid).child(noteID).set(saved);

@@ -68,7 +68,7 @@ module.exports = class AccountController {
     static async forgotPassword(email, req, rep) {
         try {
             await firebase.auth().sendPasswordResetEmail(email);
-            return rep.response(true).code(200);
+            return rep.response({ success: true }).code(200);
         } catch(err) {
             return rep.response(''+err).code(500);
         }

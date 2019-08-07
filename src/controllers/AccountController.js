@@ -41,8 +41,10 @@ module.exports = class AccountController {
     /** Retrieves your user information from the database. */
     static async getUserInfo(req, rep) {
         try {
-            const result = await firebase.auth().currentUser;
-            return rep.response({ ...result }).code(200);
+            const result = firebase.auth().currentUser;
+            return rep.response({
+                ...result.toJSON()
+            }).code(200);
         } catch(err) {
             return rep.response(''+err).code(500);
         }

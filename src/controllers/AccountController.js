@@ -42,7 +42,7 @@ module.exports = class AccountController {
     static async getUserInfo(req, rep) {
         try {
             const result = await firebase.auth().currentUser;
-            return rep.response({ ...result }).code(500);
+            return rep.response({ ...result }).code(200);
         } catch(err) {
             return rep.response(''+err).code(500);
         }

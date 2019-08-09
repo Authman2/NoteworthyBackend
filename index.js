@@ -17,6 +17,7 @@ const MoveNoteRoute = require('./src/endpoints/move-note');
 const ForgotPasswordRoute = require('./src/endpoints/forgot-password');
 const RefreshRoute = require('./src/endpoints/refresh-user');
 const UserInfoRoute = require('./src/endpoints/user-info');
+const AppInfoRoute = require('./src/endpoints/app-info');
 
 // Initialize firebase.
 const options = {
@@ -77,6 +78,7 @@ ForgotPasswordRoute(server);
 RestoreRoute(server);
 RefreshRoute(server);
 UserInfoRoute(server);
+AppInfoRoute(server);
 server.route({
     method: 'GET',
     path: '/',

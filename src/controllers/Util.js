@@ -10,5 +10,17 @@ module.exports = {
         } catch(err) {
             return undefined;
         }
+    },
+
+
+    /** Returns important app information. */
+    async getAppInfo() {
+        return {
+            applicationVersion: '2.0.0',
+            copyright: 'Adeola Uthman 2019',
+            credits: 'Adeola Uthman',
+            version: '2.0.0',
+            website: 'https://adeolauthman.com/noteworthy'
+        }
     }
 }

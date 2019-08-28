@@ -58,6 +58,32 @@ module.exports = {
                 message: 'Error: Incorrect password, try again.'
             }).code(200);
         }
+    },
+
+
+    // Returns information about the currently logged in user.
+    getUser: async function(req, rep, {}) {
+        const token = req.headers.token;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('UserInfo');
+
+            const user = await User.findOne({ _id: decoded.data.id });
+            if(!user) return rep.response({ message: "Could not find the current user" }).code(200);
+
+            const {
+                _id, firstName, lastName,
+                email, created, lastLogin
+            } = user;
+            return rep.response({
+                _id, firstName, lastName,
+                email, created, lastLogin
+            }).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
     }
 
 }

@@ -36,10 +36,6 @@ const NotebookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    pages: {
-        type: Array,
-        required: true,
-    },
     title: {
         type: String,
         required: true
@@ -83,7 +79,7 @@ async function openDB(dbName = 'UserInfo', then) {
     const res = await mongoose.connect(`mongodb+srv://authman2:${pass}@noteworthycluster-5cxoh.azure.mongodb.net/test?retryWrites=true&w=majority`, {
         dbName: dbName
     })
-    console.log(`Connection status: ${res}`);
+    console.log(`Connection to "${dbName}" database status: ${res}`);
     if(then) then();
 }
 openDB('UserInfo');

@@ -25,6 +25,19 @@ server.route({
         return `<h1>Noteworthy Backend!!!</h1>`;
     }
 });
+server.route({
+    method: 'GET',
+    path: '/app-info',
+    handler() {
+        return {
+            applicationVersion: '2.0.0',
+            copyright: 'Adeola Uthman 2019',
+            credits: 'Adeola Uthman',
+            version: '2.0.0',
+            website: 'https://adeolauthman.com/noteworthy'
+        }
+    }
+})
 routes(server);
 
 // Start the server.

@@ -1,0 +1,77 @@
+const JWT = require('jsonwebtoken');
+const { Notebook, Note, openDB } = require('../schemas');
+
+module.exports = {
+
+    // Creates a new notebook in the database.
+    createNotebook: async function(req, rep, { title, token }) {
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NotebookInfo');
+
+            const nb = new Notebook({
+                created: Date.now(),
+                userID: decoded.data.id,
+                pages: [],
+                title
+            });
+            await nb.save();
+            return rep.response({
+                    message: `Created new notebook called ${title}!`
+                }).code(200);
+        } else {
+            return rep.response({
+                    message: `Error: Not authorized.`
+                }).code(200);
+        }
+    },
+
+
+    // Returns all of the notebooks for the current user in the database.
+    getNotebooks: async function(req, rep, { token }) {
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NotebookInfo');
+
+            const userID = decoded.data.id;
+            const nbs = await Notebook.find({ userID });
+            return rep.response(nbs).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(200);
+        }
+    },
+
+    // Deletes a notebook and all of the notes associated with it.
+    deleteNotebook: async function(req, rep, { id, token }) {
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NotebookInfo');
+
+            // Find the notebook with the id you are trying to delete.
+            const nb = await Notebook.find({ _id: id });
+            if(nb) {
+                nb.remove();
+                await openDB('NoteInfo');
+
+                // Find all of the notes under this notebook.
+                const notes = await Note.find({ notebookID: id });
+                notes.forEach(note => note.remove());
+
+                return rep.response({
+                    message: `Delete the notebook ${nb.title} and all of its notes.`
+                }).code(200);
+            } else {
+                return rep.response({
+                    message: "Error: Could not find the notebook your are trying to delete."
+                }).code(200);
+            }
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(200);
+        }
+    }
+
+}

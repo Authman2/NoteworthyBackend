@@ -1,4 +1,4 @@
-const Hash = require('password-hash');
+const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const { User, openDB } = require('../schemas');
 
@@ -8,11 +8,13 @@ module.exports = {
     createUser: async function(req, rep, { firstName, lastName, email, password }) {
         await openDB('UserInfo');
 
+        const salt = await bcrypt.genSalt();
+        const passwordHash = bcrypt.hashSync(password, salt);
         const usr = new User({
             firstName,
             lastName,
             email,
-            passwordHash: Hash.generate(password),
+            passwordHash,
             created: Date.now(),
             lastLogin: Date.now()
         });
@@ -35,7 +37,7 @@ module.exports = {
 
         // Once you have the user with the email, verify
         // the password hash.
-        const match = await Hash.verify(password, user.passwordHash);
+        const match = await bcrypt.compare(password, user.passwordHash);
         if(match) {
             // Generate a token for subsequent requests.
             const jwt = JWT.sign({

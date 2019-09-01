@@ -39,7 +39,7 @@ module.exports = {
             await openDB('NoteInfo');
 
             // Find the note with the id you are trying to delete.
-            const note = await Note.findOneAndRemove({ _id: id });
+            const note = await Note.findOneAndRemove({ id: id });
             return rep.response({
                 message: `Deleted the note ${note.title}`
             }).code(200);
@@ -59,7 +59,7 @@ module.exports = {
             await openDB('NoteInfo');
 
             // Find the note with the id you are trying to update.
-            await Note.findOneAndUpdate({ _id: id }, {
+            await Note.findOneAndUpdate({ id: id }, {
                 title, content,
                 modified: Date.now()
             });
@@ -80,8 +80,8 @@ module.exports = {
             await openDB('NotebookInfo');
 
             // Get the names of the two notebooks.
-            const oldNotebook = await Notebook.findOne({ _id: fromNotebook });
-            const newNotebook = await Notebook.findOne({ _id: toNotebook });
+            const oldNotebook = await Notebook.findOne({ id: fromNotebook });
+            const newNotebook = await Notebook.findOne({ id: toNotebook });
 
             if(!oldNotebook || !newNotebook) {
                 return rep.response({
@@ -91,7 +91,7 @@ module.exports = {
 
             // Find the note and just update its notebook ID.
             await openDB('NoteInfo');
-            const note = await Note.findOneAndUpdate({ _id: id }, { notebookID: toNotebook });
+            const note = await Note.findOneAndUpdate({ id: id }, { notebookID: toNotebook });
             
             return rep.response({
                 message: `Moved "${note.title}" from "${oldNotebook.title}" to "${newNotebook.title}"`

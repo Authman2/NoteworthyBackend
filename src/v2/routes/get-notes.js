@@ -1,5 +1,5 @@
 const Hapi = require('hapi').Server;
-const Controller = require('../controllers/Note');
+const Controller = require('../controllers/Notebook');
 
 module.exports = function(server = new Hapi()) {
     server.route({

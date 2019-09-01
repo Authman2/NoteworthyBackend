@@ -4,7 +4,7 @@ const { Note, Notebook, openDB } = require('../schemas');
 module.exports = {
 
     // Creates a new note under a particular notebook.
-    createNote: async function(req, rep, { title, content, notebookID }) {
+    createNote: async function(req, rep, { title, content, notebookID, id }) {
         const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
@@ -17,28 +17,12 @@ module.exports = {
                 notebookID,
                 content,
                 title,
+                id
             });
             await n.save();
             return rep.response({
                 message: `Created a new note called ${title}!`
             }).code(200);
-        } else {
-            return rep.response({
-                message: `Error: Not authorized.`
-            }).code(401);
-        }
-    },
-
-
-    // Returns all of the notes under a given notebook.
-    getNotes: async function(req, rep, { notebookID }) {
-        const token = req.headers.authorization;
-        const decoded = JWT.verify(token, process.env.JWT_SECRET);
-        if(decoded && decoded.data) {
-            await openDB('NoteInfo');
-
-            const nts = await Note.find({ notebookID });
-            return rep.response(nts).code(200);
         } else {
             return rep.response({
                 message: `Error: Not authorized.`

@@ -4,7 +4,7 @@ const { Notebook, Note, openDB } = require('../schemas');
 module.exports = {
 
     // Creates a new notebook in the database.
-    createNotebook: async function(req, rep, { title }) {
+    createNotebook: async function(req, rep, { title, id }) {
         const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
@@ -13,7 +13,8 @@ module.exports = {
             const nb = new Notebook({
                 created: Date.now(),
                 userID: decoded.data.id,
-                title
+                title,
+                id
             });
             await nb.save();
             return rep.response({
@@ -44,6 +45,22 @@ module.exports = {
         }
     },
 
+    // Returns all of the notes under a given notebook.
+    getNotes: async function(req, rep, { notebookID }) {
+        const token = req.headers.authorization;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NoteInfo');
+
+            const nts = await Note.find({ notebookID });
+            return rep.response(nts).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
+    },
+
     // Deletes a notebook and all of the notes associated with it.
     deleteNotebook: async function(req, rep, { id }) {
         const token = req.headers.authorization;
@@ -52,7 +69,7 @@ module.exports = {
             await openDB('NotebookInfo');
 
             // Find the notebook with the id you are trying to delete.
-            const nb = await Notebook.findOne({ _id: id });
+            const nb = await Notebook.findOne({ id: id });
             if(nb) {
                 nb.remove();
                 await openDB('NoteInfo');

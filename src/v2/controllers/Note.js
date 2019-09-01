@@ -5,7 +5,7 @@ module.exports = {
 
     // Creates a new note under a particular notebook.
     createNote: async function(req, rep, { title, content, notebookID }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NoteInfo');
@@ -32,7 +32,7 @@ module.exports = {
 
     // Returns all of the notes under a given notebook.
     getNotes: async function(req, rep, { notebookID }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NoteInfo');
@@ -49,7 +49,7 @@ module.exports = {
 
     // Deletes a note from the databse.
     deleteNote: async function(req, rep, { id }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NoteInfo');
@@ -69,7 +69,7 @@ module.exports = {
 
     // Saves the newest version of the note to the database.
     save: async function(req, rep, { id, title, content }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NoteInfo');
@@ -90,7 +90,7 @@ module.exports = {
 
     // Moves a note from one notebook to another.
     move: async function(req, rep, { id, fromNotebook, toNotebook }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');

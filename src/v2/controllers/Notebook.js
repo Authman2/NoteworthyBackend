@@ -5,7 +5,7 @@ module.exports = {
 
     // Creates a new notebook in the database.
     createNotebook: async function(req, rep, { title }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');
@@ -29,7 +29,7 @@ module.exports = {
 
     // Returns all of the notebooks for the current user in the database.
     getNotebooks: async function(req, rep, {}) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');
@@ -46,7 +46,7 @@ module.exports = {
 
     // Deletes a notebook and all of the notes associated with it.
     deleteNotebook: async function(req, rep, { id }) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');

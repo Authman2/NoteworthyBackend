@@ -65,7 +65,7 @@ module.exports = {
 
     // Returns information about the currently logged in user.
     getUser: async function(req, rep, {}) {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
             await openDB('UserInfo');

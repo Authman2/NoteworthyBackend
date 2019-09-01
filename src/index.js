@@ -25,6 +25,7 @@ server.route({
         return `<h1>Noteworthy Backend!!!</h1>`;
     }
 });
+
 server.route({
     method: 'GET',
     path: '/app-info',

@@ -102,7 +102,7 @@ module.exports = {
             if(!oldNotebook || !newNotebook) {
                 return rep.response({
                     message: "Error: Could not find the notebooks you are trying to move between."
-                }).code(200);
+                }).code(404);
             }
 
             // Find the note and just update its notebook ID.

@@ -67,7 +67,7 @@ module.exports = {
             } else {
                 return rep.response({
                     message: "Error: Could not find the notebook your are trying to delete."
-                }).code(200);
+                }).code(404);
             }
         } else {
             return rep.response({

@@ -32,7 +32,7 @@ module.exports = {
         if(!user) {
             return rep.response({
                 message: "Error: Couldn't find a user with that email."
-            }).code(200);
+            }).code(401);
         }
 
         // Once you have the user with the email, verify
@@ -58,7 +58,7 @@ module.exports = {
         } else {
             return rep.response({
                 message: 'Error: Incorrect password, try again.'
-            }).code(200);
+            }).code(401);
         }
     },
 
@@ -71,7 +71,7 @@ module.exports = {
             await openDB('UserInfo');
 
             const user = await User.findOne({ _id: decoded.data.id });
-            if(!user) return rep.response({ message: "Could not find the current user" }).code(200);
+            if(!user) return rep.response({ message: "Could not find the current user" }).code(404);
 
             const {
                 _id, firstName, lastName,

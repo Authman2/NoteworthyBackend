@@ -39,6 +39,10 @@ const NotebookSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
+    },
+    id: {
+        type: String,
+        required: true
     }
 });
 const NoteSchema = new mongoose.Schema({
@@ -66,6 +70,10 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    id: {
+        type: String,
+        required: true
+    }
 })
 
 // Create modals for the schemas.

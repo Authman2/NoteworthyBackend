@@ -91,6 +91,48 @@ module.exports = {
                 message: `Error: Not authorized.`
             }).code(401);
         }
+    },
+
+
+    // Restores all of the notebook and note data to the db.
+    restore: async function(req, res, { notebooksAndNotes }) {
+        const token = req.headers.authorization;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            const everything = Object.values(notebooksAndNotes);
+            
+            await openDB('NotebookInfo');
+            const notebooks = everything.filter(item => !item.hasOwnProperty('notebookID'));
+            notebooks.forEach(async nb => {
+                const found = await Notebook.findOne({ id: nb.id });
+                if(found) {
+                    await Notebook.updateOne({ ...nb });
+                } else {
+                    const n = new Notebook({ ...nb });
+                    await n.save();
+                }
+            });
+
+            await openDB('NoteInfo');
+            const notes = everything.filter(item => item.hasOwnProperty('notebookID'));
+            notes.forEach(async nt => {
+                const found = await Note.findOne({ id: nt.id });
+                if(found) {
+                    await Note.updateOne({ ...nt });
+                } else {
+                    const n = new Note({ ...nt });
+                    await n.save();
+                }
+            });
+
+            return rep.response({
+                message: "Successfully synced your data to the online database!"
+            }).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
     }
 
 }

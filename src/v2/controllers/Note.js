@@ -15,11 +15,16 @@ module.exports = {
                 modified: Date.now(),
                 userID: decoded.data.id,
                 notebookID,
-                content,
-                title,
+                content: content || "Start typing here",
+                title: title || "",
                 id
             });
-            await n.save();
+            try { await n.save(); }
+            catch(err) {
+                return rep.response({
+                    message: `Error: ${err}`
+                }).code(500);
+            }
             return rep.response({
                 message: `Created a new note called ${title}!`
             }).code(200);

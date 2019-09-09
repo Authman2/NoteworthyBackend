@@ -85,7 +85,8 @@ const Note = mongoose.model('Note', NoteSchema, 'Notes');
 async function openDB(dbName = 'UserInfo', then) {
     const pass = process.env.MONGO_ADMIN_PASS;
     const res = await mongoose.connect(`mongodb+srv://authman2:${pass}@noteworthycluster-5cxoh.azure.mongodb.net/test?retryWrites=true&w=majority`, {
-        dbName: dbName
+        dbName: dbName,
+        useFindAndModify: false
     })
     console.log(`Connection to "${dbName}" database status: ${res}`);
     if(then) then();

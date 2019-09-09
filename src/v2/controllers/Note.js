@@ -63,11 +63,12 @@ module.exports = {
             await openDB('NoteInfo');
 
             // Find the note with the id you are trying to update.
-            await Note.findOneAndUpdate({ _id: id }, {
+            const note = await Note.findOneAndUpdate({ _id: id }, {
                 title,
                 content,
                 modified: Date.now()
             });
+            note.updateOne();
             return rep.response({ message: `Saved!` }).code(200);
         } else {
             return rep.response({

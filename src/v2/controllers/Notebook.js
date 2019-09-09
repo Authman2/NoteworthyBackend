@@ -4,7 +4,7 @@ const { Notebook, Note, openDB } = require('../schemas');
 module.exports = {
 
     // Creates a new notebook in the database.
-    createNotebook: async function(req, rep, { title, id }) {
+    createNotebook: async function(req, rep, { title }) {
         const token = req.headers.authorization;
         const decoded = JWT.verify(token, process.env.JWT_SECRET);
         if(decoded && decoded.data) {
@@ -13,8 +13,7 @@ module.exports = {
             const nb = new Notebook({
                 created: Date.now(),
                 userID: decoded.data.id,
-                title,
-                id
+                title
             });
             await nb.save();
             return rep.response({
@@ -69,7 +68,7 @@ module.exports = {
             await openDB('NotebookInfo');
 
             // Find the notebook with the id you are trying to delete.
-            const nb = await Notebook.findOne({ id: id });
+            const nb = await Notebook.findOne({ _id: id });
             if(nb) {
                 nb.remove();
                 await openDB('NoteInfo');
@@ -101,7 +100,7 @@ module.exports = {
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');
             await Promise.all(notebooks.map(async nb => {
-                const found = await Notebook.findOne({ id: nb.id });
+                const found = await Notebook.findOne({ _id: nb.id });
                 if(found) {
                     await Notebook.updateOne({ ...nb });
                 } else {
@@ -112,7 +111,7 @@ module.exports = {
 
             await openDB('NoteInfo');
             await Promise.all(notes.map(async nt => {
-                const found = await Note.findOne({ id: nt.id });
+                const found = await Note.findOne({ _id: nt.id });
                 if(found) {
                     await Note.updateOne({ ...nt });
                 } else {

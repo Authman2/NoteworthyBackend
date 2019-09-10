@@ -12,6 +12,7 @@ const createNote = require('./routes/create-note');
 const deleteNote = require('./routes/delete-note');
 const saveNote = require('./routes/save');
 const moveNote = require('./routes/move');
+const favoriteNote = require('./routes/favorite');
 
 module.exports = function(server) {
     createUser(server);
@@ -28,4 +29,5 @@ module.exports = function(server) {
     deleteNote(server);
     saveNote(server);
     moveNote(server);
+    favoriteNote(server);
 }

@@ -17,6 +17,7 @@ module.exports = {
                 notebookID,
                 content: content || "Start typing here",
                 title: title || "",
+                favorited: false
             });
             try { await n.save(); }
             catch(err) {
@@ -101,6 +102,27 @@ module.exports = {
             
             return rep.response({
                 message: `Moved "${note.title}" from "${oldNotebook.title}" to "${newNotebook.title}"`
+            }).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
+    },
+
+
+    // Toggles whether the note is in the user's favorites.
+    favorite: async function(req, rep, { id }) {
+        const token = req.headers.authorization;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NoteInfo');
+
+            const note = await Note.findOne({ _id: id });
+            if(note)
+                await note.updateOne({ favorited: !note.favorited });
+            return rep.response({
+                message: note.favorited ? `Favorited ${note.title}!` : `Removed ${note.title} from favorites`
             }).code(200);
         } else {
             return rep.response({

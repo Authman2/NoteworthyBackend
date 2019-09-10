@@ -62,6 +62,10 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    favorited: {
+        type: Boolean,
+        required: false
+    },
     content: {
         type: String,
         required: true,

@@ -13,6 +13,7 @@ const deleteNote = require('./routes/delete-note');
 const saveNote = require('./routes/save');
 const moveNote = require('./routes/move');
 const favoriteNote = require('./routes/favorite');
+const getFavorites = require('./routes/get-favorites');
 
 module.exports = function(server) {
     createUser(server);
@@ -30,4 +31,5 @@ module.exports = function(server) {
     saveNote(server);
     moveNote(server);
     favoriteNote(server);
+    getFavorites(server);
 }

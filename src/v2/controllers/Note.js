@@ -129,6 +129,23 @@ module.exports = {
                 message: `Error: Not authorized.`
             }).code(401);
         }
+    },
+
+
+    // Returns a list of the user's favorited notes.
+    getFavorites: async function(req, rep, {}) {
+        const token = req.headers.authorization;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('NoteInfo');
+
+            const nts = await Note.find({ favorited: true });
+            return rep.response(nts).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
     }
 
 }

@@ -122,7 +122,7 @@ module.exports = {
             if(note)
                 await note.updateOne({ favorited: !note.favorited });
             return rep.response({
-                message: note.favorited ? `Favorited ${note.title}!` : `Removed ${note.title} from favorites`
+                message: !note.favorited ? `Favorited ${note.title}!` : `Removed ${note.title} from favorites`
             }).code(200);
         } else {
             return rep.response({

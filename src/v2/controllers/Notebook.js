@@ -17,12 +17,12 @@ module.exports = {
             });
             await nb.save();
             return rep.response({
-                    message: `Created new notebook called ${title}!`
-                }).code(200);
+                message: `Created new notebook called ${title}!`
+            }).code(200);
         } else {
             return rep.response({
-                    message: `Error: Not authorized.`
-                }).code(401);
+                message: `Error: Not authorized.`
+            }).code(401);
         }
     },
 

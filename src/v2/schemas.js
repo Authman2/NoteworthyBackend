@@ -39,10 +39,6 @@ const NotebookSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
-    },
-    id: {
-        type: String,
-        required: true
     }
 });
 const NoteSchema = new mongoose.Schema({
@@ -71,10 +67,6 @@ const NoteSchema = new mongoose.Schema({
         required: true,
     },
     title: {
-        type: String,
-        required: true
-    },
-    id: {
         type: String,
         required: true
     }

@@ -14,7 +14,7 @@ module.exports = {
                 created: Date.now(),
                 modified: Date.now(),
                 userID: decoded.data.id,
-                notebookID,
+                notebookID: notebookID || "",
                 content: content || "Start typing here",
                 title: title || "",
                 favorited: false
@@ -98,7 +98,8 @@ module.exports = {
 
             // Find the note and just update its notebook ID.
             await openDB('NoteInfo');
-            const note = await Note.findOneAndUpdate({ _id: id }, { notebookID: toNotebook });
+            const note = await Note.findOne({ _id: id });
+            await note.updateOne({ notebookID: toNotebook });
             
             return rep.response({
                 message: `Moved "${note.title}" from "${oldNotebook.title}" to "${newNotebook.title}"`

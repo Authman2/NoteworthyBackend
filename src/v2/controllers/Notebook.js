@@ -100,24 +100,20 @@ module.exports = {
         if(decoded && decoded.data) {
             await openDB('NotebookInfo');
             await Promise.all(notebooks.map(async nb => {
-                const found = await Notebook.findOne({ _id: nb.id });
-                if(found) {
-                    await Notebook.updateOne({ ...nb });
-                } else {
-                    const n = new Notebook({ ...nb });
-                    await n.save();
-                }
+                const found = await Notebook.findOne({ _id: nb._id });
+                if(found)
+                    await found.updateOne({ ...nb });
+                else
+                    await new Notebook({ ...nb }).save();
             }));
 
             await openDB('NoteInfo');
             await Promise.all(notes.map(async nt => {
-                const found = await Note.findOne({ _id: nt.id });
-                if(found) {
-                    await Note.updateOne({ ...nt });
-                } else {
-                    const n = new Note({ ...nt });
-                    await n.save();
-                }
+                const found = await Note.findOne({ _id: nt._id });
+                if(found)
+                    await found.updateOne({ ...nt });
+                else
+                    await new Note({ ...nt }).save();
             }));
 
             return res.response({

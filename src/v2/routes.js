@@ -1,6 +1,7 @@
 const createUser = require('./routes/create-user');
 const login = require('./routes/login');
 const getUser = require('./routes/get-user');
+const updateSettings = require('./routes/update-settings');
 
 const createNotebook = require('./routes/create-notebook');
 const getNotes = require('./routes/get-notes');
@@ -19,6 +20,7 @@ module.exports = function(server) {
     createUser(server);
     login(server);
     getUser(server);
+    updateSettings(server);
 
     createNotebook(server);
     getNotes(server);

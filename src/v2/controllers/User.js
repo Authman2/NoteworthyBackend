@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
-const { User, openDB } = require('../schemas');
+const { User, Settings, openDB } = require('../schemas');
 
 module.exports = {
 
@@ -45,7 +45,7 @@ module.exports = {
                     id: user._id,
                     email: email,
                 }
-            }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
             // Update the last login time for the user.
             user.lastLogin = Date.now();
@@ -81,6 +81,25 @@ module.exports = {
                 _id, firstName, lastName,
                 email, created, lastLogin
             }).code(200);
+        } else {
+            return rep.response({
+                message: `Error: Not authorized.`
+            }).code(401);
+        }
+    },
+
+
+    // Updates the user's settings.
+    updateSettings: async function(req, rep, { settings }) {
+        const token = req.headers.authorization;
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        if(decoded && decoded.data) {
+            await openDB('SettingsInfo');
+
+            const nSettings = new Settings({ settings });
+            nSettings.save();
+
+            return rep.response({ message: 'Updated settings!' }).code(200);
         } else {
             return rep.response({
                 message: `Error: Not authorized.`

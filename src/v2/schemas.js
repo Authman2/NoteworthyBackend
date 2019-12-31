@@ -70,12 +70,19 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
+const SettingsSchema = new mongoose.Schema({
+    settings: {
+        type: String,
+        required: true,
+    }
+});
 
 // Create modals for the schemas.
 const User = mongoose.model('User', UserSchema, 'Users');
 const Notebook = mongoose.model('Notebook', NotebookSchema, 'Notebooks');
 const Note = mongoose.model('Note', NoteSchema, 'Notes');
+const Settings = mongoose.model('Settings', SettingsSchema, 'Settings');
 
 // Connect to MongoDB.
 async function openDB(dbName = 'UserInfo', then) {
@@ -92,5 +99,6 @@ module.exports = {
     openDB,
     User,
     Notebook,
-    Note
+    Note,
+    Settings
 };

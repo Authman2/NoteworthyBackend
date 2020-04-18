@@ -19,6 +19,7 @@ const server = new Hapi({
     }
 });
 
+
 // Route handlers.
 server.route({
     method: 'GET',

@@ -11,7 +11,9 @@ const server = new Hapi({
                 'http://localhost:3000', 
                 'http://localhost:3000/login',
                 'https://noteworthyapp.netlify.com',
-                'https://dev-noteworthyapp.netlify.com'
+                'https://dev-noteworthyapp.netlify.com',
+                'https://noteworthyapp.netlify.app',
+                'https://dev-noteworthyapp.netlify.app',
             ]
         }
     }

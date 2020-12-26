@@ -8,8 +8,8 @@ const server = new Hapi({
     routes: {
         cors: {
             origin: [
-                'http://localhost:3000', 
-                'http://localhost:3000/login',
+                'http://localhost:8000', 
+                'http://localhost:8000/login',
                 'https://noteworthyapp.netlify.com',
                 'https://dev-noteworthyapp.netlify.com',
                 'https://noteworthyapp.netlify.app',
